@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 Gem::Specification.new do |s|
-  s.name          = "jekyll-theme-primer"
+  s.name          = "jekyll-v4-theme-primer"
   s.version       = "0.8.0"
-  s.authors       = ["GitHub, Inc."]
-  s.email         = ["open-source@github.com"]
-  s.homepage      = "https://github.com/pages-themes/jekyll-theme-primer"
+  s.authors       = ["GitHub, Inc.", "George Waters"]
+  s.email         = ["open-source@github.com", "gwatersdev@gmail.com"]
+  s.homepage      = "https://github.com/dunkmann00/primer"
   s.summary       = "Primer is a Jekyll theme for GitHub Pages based on GitHub's Primer styles"
 
   s.files         = `git ls-files -z`.split("\x0").select do |f|
