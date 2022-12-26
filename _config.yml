@@ -5,7 +5,7 @@ exclude:
 sass:
   style: :compressed
 
-theme: jekyll-theme-primer
+theme: jekyll-v4-theme-primer
 
 primer:
   theme: light
