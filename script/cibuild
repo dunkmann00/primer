@@ -6,4 +6,4 @@ bundle exec jekyll build
 bundle exec htmlproofer ./_site --check-html --check-sri
 bundle exec rubocop -D --config .rubocop.yml
 bundle exec script/validate-html
-gem build jekyll-theme-primer.gemspec
+gem build jekyll-v4-theme-primer.gemspec
