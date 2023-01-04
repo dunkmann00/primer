@@ -1,8 +1,8 @@
-# The Primer theme
+# The Primer theme for Jekyll v4
 
 [![.github/workflows/ci.yaml](https://github.com/dunkmann00/primer/actions/workflows/ci.yaml/badge.svg)](https://github.com/dunkmann00/primer/actions/workflows/ci.yaml) [![Gem Version](https://badge.fury.io/rb/jekyll-v4-theme-primer.svg)](https://badge.fury.io/rb/jekyll-v4-theme-primer)
 
-*Primer is a Jekyll theme for GitHub Pages. You can [preview the theme to see what it looks like](http://pages-themes.github.io/primer), or even [use it today](#usage).*
+*Primer is a Jekyll theme for GitHub Pages. You can [preview the theme to see what it looks like](https://georgeh2os.com/primer), or even [use it today](#usage).*
 
 
 ## Usage
@@ -22,6 +22,13 @@ To use the Primer theme:
     ```ruby
     gem "jekyll-v4-github-pages", group: :jekyll_plugins
     ```
+
+3. If not using with Github pages, you can install the theme's gem directly by adding the following to your
+   site's `Gemfile`:
+
+   ```ruby
+   gem "jekyll-v4-theme-primer", group: :jekyll_plugins
+   ```
 
 ## Customizing
 
