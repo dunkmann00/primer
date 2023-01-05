@@ -27,7 +27,7 @@ To use the Primer theme:
    site's `Gemfile`:
 
    ```ruby
-   gem "jekyll-v4-theme-primer", group: :jekyll_plugins
+   gem "jekyll-v4-theme-primer"
    ```
 
 ## Customizing
