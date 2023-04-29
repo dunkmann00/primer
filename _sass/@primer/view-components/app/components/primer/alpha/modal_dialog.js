@@ -21,9 +21,11 @@ const overlayStack = [];
 function clickHandler(event) {
     const target = event.target;
     const button = target === null || target === void 0 ? void 0 : target.closest('button');
+    if (!button)
+        return;
     // If the user is clicking a valid dialog trigger
     let dialogId = button === null || button === void 0 ? void 0 : button.getAttribute('data-show-dialog-id');
-    if (button && dialogId) {
+    if (dialogId) {
         event.stopPropagation();
         const dialog = document.getElementById(dialogId);
         if (dialog instanceof ModalDialogElement) {
@@ -36,17 +38,6 @@ function clickHandler(event) {
     const topLevelDialog = overlayStack[overlayStack.length - 1];
     if (!topLevelDialog)
         return;
-    // Check if the click happened outside the boundary of the top level dialog
-    const clickOutsideDialog = !target.closest(`#${topLevelDialog.getAttribute('id')}`);
-    // Only close dialog if it's a click outside the dialog and the dialog has a
-    // button?
-    if (!button) {
-        if (clickOutsideDialog) {
-            overlayStack.pop();
-            topLevelDialog.close();
-        }
-        return;
-    }
     dialogId = button.getAttribute('data-close-dialog-id');
     if (dialogId === topLevelDialog.id) {
         overlayStack.pop();
@@ -56,6 +47,26 @@ function clickHandler(event) {
     if (dialogId === topLevelDialog.id) {
         overlayStack.pop();
         topLevelDialog.close(true);
+    }
+}
+function mousedownHandler(event) {
+    const target = event.target;
+    if (target === null || target === void 0 ? void 0 : target.closest('button'))
+        return;
+    // Find the top level dialog that is open.
+    const topLevelDialog = overlayStack[overlayStack.length - 1];
+    if (!topLevelDialog)
+        return;
+    // Check if the mousedown happened outside the boundary of the top level dialog
+    const mouseDownOutsideDialog = !target.closest(`#${topLevelDialog.getAttribute('id')}`);
+    // Only close dialog if it's a click outside the dialog and the dialog has a button?
+    if (mouseDownOutsideDialog) {
+        target.ownerDocument.addEventListener('mouseup', (upEvent) => {
+            if (upEvent.target === target) {
+                overlayStack.pop();
+                topLevelDialog.close();
+            }
+        }, { once: true });
     }
 }
 export class ModalDialogElement extends HTMLElement {
@@ -75,6 +86,7 @@ export class ModalDialogElement extends HTMLElement {
                 return;
             this.setAttribute('open', '');
             (_a = __classPrivateFieldGet(this, _ModalDialogElement_instances, "a", _ModalDialogElement_overlayBackdrop_get)) === null || _a === void 0 ? void 0 : _a.classList.remove('Overlay--hidden');
+            document.body.style.paddingRight = `${window.innerWidth - document.body.clientWidth}px`;
             document.body.style.overflow = 'hidden';
             if (__classPrivateFieldGet(this, _ModalDialogElement_focusAbortController, "f").signal.aborted) {
                 __classPrivateFieldSet(this, _ModalDialogElement_focusAbortController, new AbortController(), "f");
@@ -87,6 +99,7 @@ export class ModalDialogElement extends HTMLElement {
                 return;
             this.removeAttribute('open');
             (_b = __classPrivateFieldGet(this, _ModalDialogElement_instances, "a", _ModalDialogElement_overlayBackdrop_get)) === null || _b === void 0 ? void 0 : _b.classList.add('Overlay--hidden');
+            document.body.style.paddingRight = '0';
             document.body.style.overflow = 'initial';
             __classPrivateFieldGet(this, _ModalDialogElement_focusAbortController, "f").abort();
             // if #openButton is a child of a menu, we need to focus a suitable child of the menu
@@ -109,6 +122,7 @@ export class ModalDialogElement extends HTMLElement {
         if (!this.hasAttribute('role'))
             this.setAttribute('role', 'dialog');
         document.addEventListener('click', clickHandler);
+        document.addEventListener('mousedown', mousedownHandler);
         this.addEventListener('keydown', e => __classPrivateFieldGet(this, _ModalDialogElement_instances, "m", _ModalDialogElement_keydown).call(this, e));
     }
     show() {

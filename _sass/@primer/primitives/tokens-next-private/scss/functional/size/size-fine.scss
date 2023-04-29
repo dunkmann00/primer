@@ -1,0 +1,7 @@
+@mixin primer-colors-size-fine {
+  & {
+    --control-minTarget-auto: 1rem;
+    --controlStack-small-gap-auto: 0.5rem;
+    --controlStack-medium-gap-auto: 0.5rem;
+  }
+}
