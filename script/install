@@ -20,9 +20,30 @@ content='
 @import "@primer/css/utilities/index.scss";
 @import "@primer/css/layout/index.scss";
 @import "@primer/css/markdown/index.scss";
-@import "rouge";
+[data-color-mode=light][data-light-theme*=light],
+[data-color-mode=dark][data-dark-theme*=light] {
+  @import "rouge-light.scss";
+}
+
+[data-color-mode=light][data-light-theme*=dark],
+[data-color-mode=dark][data-dark-theme*=dark] {
+  @import "rouge-dark.scss";
+}
+
+@media(prefers-color-scheme: light) {
+  [data-color-mode=auto][data-light-theme*=light]{
+    @import "rouge-light.scss";
+  }
+}
+
+@media(prefers-color-scheme: dark) {
+  [data-color-mode=auto][data-dark-theme*=dark]{
+    @import "rouge-dark.scss";
+  }
+}
 '
 echo "$content" >> _sass/jekyll-theme-primer.scss
 
 # Create rouge stylesheet
-rougify style github > _sass/rouge.scss
+rougify style github.light > _sass/rouge-light.scss
+rougify style github.dark > _sass/rouge-dark.scss

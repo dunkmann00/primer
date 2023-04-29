@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name          = "jekyll-v4-theme-primer"
-  s.version       = "0.8.0"
+  s.version       = "0.10.0"
   s.authors       = ["GitHub, Inc.", "George Waters"]
   s.email         = ["open-source@github.com", "gwatersdev@gmail.com"]
   s.homepage      = "https://github.com/dunkmann00/primer"
@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 2.4.0"
 
   s.add_dependency "jekyll", ">= 4.0", "< 5.0"
-  s.add_runtime_dependency "jekyll-github-metadata", "~> 2.9"
+  s.add_runtime_dependency "jekyll-github-metadata", "~> 2.16"
   s.add_runtime_dependency "jekyll-seo-tag", "~> 2.0"
   s.add_runtime_dependency "jekyll-sass-converter", "~> 3.0"
   s.add_development_dependency "html-proofer", "~> 3.0"

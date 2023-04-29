@@ -163,14 +163,16 @@
       "medium_portrait": "Overlay--size-medium-portrait",
       "medium": "Overlay--size-medium",
       "large": "Overlay--size-large",
-      "xlarge": "Overlay--size-xlarge"
+      "xlarge": "Overlay--size-xlarge",
+      "auto": "Overlay--size-auto"
     },
     "SIZE_OPTIONS": [
       "small",
       "medium_portrait",
       "medium",
       "large",
-      "xlarge"
+      "xlarge",
+      "auto"
     ]
   },
   "Primer::Alpha::Dialog::Body": {
@@ -215,6 +217,8 @@
       "button",
       "summary"
     ]
+  },
+  "Primer::Alpha::HellipButton": {
   },
   "Primer::Alpha::HiddenTextExpander": {
   },
@@ -327,6 +331,8 @@
     "Item": "Primer::Alpha::SegmentedControl::Item"
   },
   "Primer::Alpha::SegmentedControl::Item": {
+  },
+  "Primer::Alpha::TabContainer": {
   },
   "Primer::Alpha::TabNav": {
     "BODY_TAG_DEFAULT": "ul",
@@ -794,6 +800,13 @@
       "micro",
       "elapsed"
     ],
+    "FORMAT_STYLE_DEFAULT": null,
+    "FORMAT_STYLE_OPTIONS": [
+      null,
+      "long",
+      "short",
+      "narrow"
+    ],
     "HOUR_DEFAULT": null,
     "HOUR_MAPPINGS": {
       "": null,
@@ -912,8 +925,71 @@
       "large"
     ]
   },
+  "Primer::Beta::State": {
+    "DEPRECATED_SCHEME_MAPPINGS": {
+      "default": "",
+      "green": "State--open",
+      "red": "State--closed",
+      "purple": "State--merged"
+    },
+    "NEW_SCHEME_MAPPINGS": {
+      "open": "State--open",
+      "closed": "State--closed",
+      "merged": "State--merged"
+    },
+    "SCHEME_DEFAULT": "default",
+    "SCHEME_MAPPINGS": {
+      "open": "State--open",
+      "closed": "State--closed",
+      "merged": "State--merged",
+      "default": "",
+      "green": "State--open",
+      "red": "State--closed",
+      "purple": "State--merged"
+    },
+    "SCHEME_OPTIONS": [
+      "open",
+      "closed",
+      "merged",
+      "default",
+      "green",
+      "red",
+      "purple"
+    ],
+    "SIZE_DEFAULT": "default",
+    "SIZE_MAPPINGS": {
+      "default": "",
+      "small": "State--small"
+    },
+    "SIZE_OPTIONS": [
+      "default",
+      "small"
+    ],
+    "TAG_DEFAULT": "span",
+    "TAG_OPTIONS": [
+      "span",
+      "div"
+    ]
+  },
+  "Primer::Beta::Subhead": {
+    "DEFAULT_HEADING_TAG": "div",
+    "HEADING_TAG_OPTIONS": [
+      "div",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6"
+    ]
+  },
   "Primer::Beta::Text": {
     "DEFAULT_TAG": "span"
+  },
+  "Primer::Beta::TimelineItem": {
+    "Badge": "Primer::Beta::TimelineItem::Badge"
+  },
+  "Primer::Beta::TimelineItem::Badge": {
   },
   "Primer::Beta::Truncate": {
     "TruncateText": "Primer::Beta::Truncate::TruncateText"
@@ -923,8 +999,6 @@
   "Primer::BlankslateComponent": {
   },
   "Primer::Box": {
-  },
-  "Primer::BoxComponent": {
   },
   "Primer::ButtonComponent": {
     "DEFAULT_SCHEME": "default",
@@ -955,8 +1029,6 @@
       "medium"
     ]
   },
-  "Primer::ClipboardCopy": {
-  },
   "Primer::ConditionalWrapper": {
   },
   "Primer::Content": {
@@ -968,22 +1040,6 @@
     "Item": "Primer::Dropdown::Menu::Item"
   },
   "Primer::Dropdown::Menu::Item": {
-  },
-  "Primer::DropdownMenuComponent": {
-    "DIRECTION_DEFAULT": "se",
-    "DIRECTION_OPTIONS": [
-      "se",
-      "sw",
-      "w",
-      "e",
-      "ne",
-      "s"
-    ],
-    "SCHEME_DEFAULT": "default",
-    "SCHEME_MAPPINGS": {
-      "default": "",
-      "dark": "dropdown-menu-dark"
-    }
   },
   "Primer::HellipButton": {
   },
@@ -1056,62 +1112,8 @@
   "Primer::SpinnerComponent": {
   },
   "Primer::StateComponent": {
-    "DEPRECATED_SCHEME_MAPPINGS": {
-      "default": "",
-      "green": "State--open",
-      "red": "State--closed",
-      "purple": "State--merged"
-    },
-    "NEW_SCHEME_MAPPINGS": {
-      "open": "State--open",
-      "closed": "State--closed",
-      "merged": "State--merged"
-    },
-    "SCHEME_DEFAULT": "default",
-    "SCHEME_MAPPINGS": {
-      "open": "State--open",
-      "closed": "State--closed",
-      "merged": "State--merged",
-      "default": "",
-      "green": "State--open",
-      "red": "State--closed",
-      "purple": "State--merged"
-    },
-    "SCHEME_OPTIONS": [
-      "open",
-      "closed",
-      "merged",
-      "default",
-      "green",
-      "red",
-      "purple"
-    ],
-    "SIZE_DEFAULT": "default",
-    "SIZE_MAPPINGS": {
-      "default": "",
-      "small": "State--small"
-    },
-    "SIZE_OPTIONS": [
-      "default",
-      "small"
-    ],
-    "TAG_DEFAULT": "span",
-    "TAG_OPTIONS": [
-      "span",
-      "div"
-    ]
   },
   "Primer::SubheadComponent": {
-    "DEFAULT_HEADING_TAG": "div",
-    "HEADING_TAG_OPTIONS": [
-      "div",
-      "h1",
-      "h2",
-      "h3",
-      "h4",
-      "h5",
-      "h6"
-    ]
   },
   "Primer::TabContainerComponent": {
   },

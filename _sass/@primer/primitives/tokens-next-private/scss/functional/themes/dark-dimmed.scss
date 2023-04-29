@@ -1,0 +1,391 @@
+@mixin primer-colors-dark-dimmed {
+  & {
+    --topicTag-borderColor: #00000000;
+    --highlight-neutral-bgColor: #c6902666;
+    --page-header-bgColor: #22272e;
+    --diffBlob-addition-fgColor-text: #c5d1de;
+    --diffBlob-addition-fgColor-num: #c5d1de;
+    --diffBlob-addition-bgColor-num: #57ab5a4d;
+    --diffBlob-addition-bgColor-line: #46954a26;
+    --diffBlob-addition-bgColor-word: #46954a66;
+    --diffBlob-deletion-fgColor-text: #c5d1de;
+    --diffBlob-deletion-fgColor-num: #c5d1de;
+    --diffBlob-deletion-bgColor-num: #e5534b4d;
+    --diffBlob-deletion-bgColor-line: #e5534b26;
+    --diffBlob-deletion-bgColor-word: #e5534b66;
+    --diffBlob-hunk-bgColor-num: #4184e466;
+    --diffBlob-expander-iconColor: #c5d1de;
+    --diffStat-addition-bgColor: #347d39;
+    --codeMirror-fgColor: #c5d1de;
+    --codeMirror-bgColor: #22272e;
+    --codeMirror-gutters-bgColor: #22272e;
+    --codeMirror-gutterMarker-fgColor-default: #22272e;
+    --codeMirror-gutterMarker-fgColor-muted: #6d7986;
+    --codeMirror-lineNumber-fgColor: #6d7986;
+    --codeMirror-cursor-fgColor: #c5d1de;
+    --codeMirror-selection-bgColor: #4184e466;
+    --codeMirror-activeline-bgColor: #636e7b26;
+    --codeMirror-matchingBracket-fgColor: #c5d1de;
+    --codeMirror-lines-bgColor: #22272e;
+    --codeMirror-syntax-fgColor-comment: #768390;
+    --codeMirror-syntax-fgColor-constant: #6cb6ff;
+    --codeMirror-syntax-fgColor-entity: #dcbdfb;
+    --codeMirror-syntax-fgColor-keyword: #f47067;
+    --codeMirror-syntax-fgColor-storage: #f47067;
+    --codeMirror-syntax-fgColor-string: #96d0ff;
+    --codeMirror-syntax-fgColor-support: #6cb6ff;
+    --codeMirror-syntax-fgColor-variable: #f69d50;
+    --header-fgColor-default: #cdd9e5b3;
+    --header-fgColor-logo: #cdd9e5;
+    --header-bgColor: #2d333bf2;
+    --header-borderColor-divider: #768390;
+    --headerSearch-bgColor: #22272e;
+    --headerSearch-borderColor: #444c56;
+    --avatar-bgColor: #cdd9e51a;
+    --avatar-borderColor: #00000000;
+    --avatar-shadow: 0px 0px 0px 2px #22272e;
+    --avatarStack-fade-bgColor-default: #444c56;
+    --avatarStack-fade-bgColor-muted: #373e47;
+    --control-bgColor-rest: #373e47;
+    --control-bgColor-hover: #3d444e;
+    --control-bgColor-active: #434a54;
+    --control-bgColor-disabled: #545d68;
+    --control-bgColor-selected: #2d333b;
+    --control-fgColor-rest: #adbac7;
+    --control-fgColor-placeholder: #545d68;
+    --control-fgColor-disabled: #545d68;
+    --control-borderColor-rest: #444c56;
+    --control-borderColor-emphasis: #606b77;
+    --control-borderColor-disabled: #444c56;
+    --control-borderColor-selected: #cdd9e5;
+    --control-borderColor-success: #347d39;
+    --control-borderColor-danger: #c93c37;
+    --control-borderColor-warning: #966600;
+    --control-iconColor-rest: #6d7986;
+    --control-transparent-bgColor-rest: #00000000;
+    --control-transparent-bgColor-hover: #909dab1f;
+    --control-transparent-bgColor-active: #909dab33;
+    --control-transparent-bgColor-disabled: #00000000;
+    --control-transparent-bgColor-selected: #909dab14;
+    --control-transparent-borderColor-rest: #00000000;
+    --control-transparent-borderColor-hover: #00000000;
+    --control-transparent-borderColor-active: #00000000;
+    --control-danger-fgColor-rest: #e5534b;
+    --control-danger-fgColor-hover: #f47067;
+    --control-danger-bgColor-hover: #e5534b1a;
+    --control-danger-bgColor-active: #e5534b66;
+    --control-checked-bgColor-rest: #316dca;
+    --control-checked-bgColor-hover: #3876d3;
+    --control-checked-bgColor-active: #3f7fdb;
+    --control-checked-bgColor-disabled: #545d68;
+    --control-checked-fgColor-rest: #cdd9e5;
+    --control-checked-fgColor-disabled: #1c2128;
+    --control-checked-borderColor-rest: #316dca;
+    --control-checked-borderColor-hover: #00000000;
+    --control-checked-borderColor-active: #00000000;
+    --control-checked-borderColor-disabled: #545d68;
+    --controlTrack-bgColor-rest: #373e47;
+    --controlTrack-bgColor-hover: #3d444e;
+    --controlTrack-bgColor-active: #434a54;
+    --controlTrack-bgColor-disabled: #545d68;
+    --controlTrack-fgColor-rest: #6d7986;
+    --controlTrack-fgColor-disabled: #6d7986;
+    --controlTrack-borderColor-rest: #00000000;
+    --controlTrack-borderColor-disabled: #545d68;
+    --controlKnob-bgColor-rest: #1c2128;
+    --controlKnob-bgColor-disabled: #545d68;
+    --controlKnob-bgColor-checked: #cdd9e5;
+    --controlKnob-borderColor-rest: #606b77;
+    --controlKnob-borderColor-disabled: #545d68;
+    --controlKnob-borderColor-checked: #316dca;
+    --counter-borderColor: #00000000;
+    --button-default-fgColor-rest: #adbac7;
+    --button-default-bgColor-rest: #373e47;
+    --button-default-bgColor-hover: #3d444e;
+    --button-default-bgColor-active: #434a54;
+    --button-default-bgColor-selected: #434a54;
+    --button-default-borderColor-rest: #444c56;
+    --button-default-borderColor-hover: #444c56;
+    --button-default-borderColor-active: #444c56;
+    --button-default-shadow-resting: 0px 0px 0px 0px #000000;
+    --button-default-shadow-inset: 0px 0px 0px 0px #000000;
+    --button-primary-fgColor-rest: #cdd9e5;
+    --button-primary-fgColor-disabled: #cdd9e580;
+    --button-primary-iconColor-rest: #cdd9e5;
+    --button-primary-bgColor-rest: #347d39;
+    --button-primary-bgColor-hover: #3b8640;
+    --button-primary-bgColor-active: #428f46;
+    --button-primary-bgColor-disabled: #50a254;
+    --button-primary-borderColor-rest: #444c56cc;
+    --button-primary-borderColor-hover: #444c56cc;
+    --button-primary-borderColor-disabled: #444c56cc;
+    --button-primary-shadow-selected: 0px 0px 0px 0px #000000;
+    --button-invisible-fgColor-rest: #3b7cdb;
+    --button-invisible-fgColor-disabled: #545d68;
+    --button-invisible-bgColor-rest: #00000000;
+    --button-invisible-bgColor-hover: #909dab1f;
+    --button-invisible-bgColor-active: #909dab33;
+    --button-invisible-bgColor-disabled: #00000000;
+    --button-invisible-borderColor-rest: #00000000;
+    --button-invisible-borderColor-hover: #00000000;
+    --button-outline-fgColor-rest: #3b7cdb;
+    --button-outline-fgColor-hover: #3b7cdb;
+    --button-outline-fgColor-active: #cdd9e5;
+    --button-outline-fgColor-disabled: #3b7cdb80;
+    --button-outline-bgColor-rest: #cdd9e5;
+    --button-outline-bgColor-hover: #444c56;
+    --button-outline-bgColor-active: #1b4b91;
+    --button-outline-bgColor-disabled: #22272e;
+    --button-outline-borderColor-hover: #444c5666;
+    --button-outline-borderColor-selected: #444c5666;
+    --button-outline-shadow-selected: 0px 0px 0px 0px #000000;
+    --button-danger-fgColor-rest: #e5534b;
+    --button-danger-fgColor-hover: #cdd9e5;
+    --button-danger-fgColor-active: #cdd9e5;
+    --button-danger-fgColor-disabled: #e5534b80;
+    --button-danger-iconColor-rest: #e5534b;
+    --button-danger-iconColor-hover: #cdd9e5;
+    --button-danger-bgColor-rest: #373e47;
+    --button-danger-bgColor-hover: #ad2e2c;
+    --button-danger-bgColor-active: #c33d38;
+    --button-danger-bgColor-disabled: #373e47;
+    --button-danger-borderColor-rest: #444c56;
+    --button-danger-borderColor-hover: #ad2e2c;
+    --button-danger-borderColor-active: #c33d38;
+    --button-danger-shadow-selected: 0px 0px 0px 0px #000000;
+    --buttonCounter-default-bgColor-rest: #444c56;
+    --buttonCounter-primary-bgColor-rest: #cdd9e533;
+    --buttonCounter-outline-bgColor-rest: #316dca1a;
+    --buttonCounter-outline-bgColor-hover: #cdd9e533;
+    --buttonCounter-outline-bgColor-disabled: #316dca0d;
+    --buttonCounter-danger-bgColor-hover: #cdd9e533;
+    --buttonCounter-danger-bgColor-disabled: #c93c370d;
+    --buttonCounter-danger-bgColor-rest: #c93c371a;
+    --focus-outlineColor: #316dca;
+    --menu-bgColor-active: #2d333b;
+    --overlay-bgColor: #2d333b;
+    --overlay-backdrop-bgColor: #909dab33;
+    --selectMenu-borderColor: #545d68;
+    --selectMenu-bgColor-active: #143d79;
+    --sideNav-bgColor-selected: #373e47;
+    --timelineBadge-bgColor: #373e47;
+    --treeViewItem-leadingVisual-bgColor-rest: #6d7986;
+    --underlineNav-borderColor-active: #ec775c;
+    --underlineNav-borderColor-hover: #636e7b66;
+    --underlineNav-iconColor-rest: #6d7986;
+    --fgColor-default: #c5d1de;
+    --fgColor-muted: #6d7986;
+    --fgColor-onEmphasis: #cdd9e5;
+    --fgColor-disabled: #545d68;
+    --fgColor-link-rest: #3b7cdb;
+    --fgColor-link-inverse-rest: #316dca;
+    --fgColor-link-control: #5e6975;
+    --fgColor-accent: #3b7cdb;
+    --fgColor-success: #57ab5a;
+    --fgColor-attention: #c69026;
+    --fgColor-severe: #cc6b2c;
+    --fgColor-danger: #e5534b;
+    --fgColor-open: #57ab5a;
+    --fgColor-closed: #e5534b;
+    --fgColor-done: #986ee2;
+    --fgColor-sponsors: #c96198;
+    --bgColor-default: #22272e;
+    --bgColor-muted: #2d333b;
+    --bgColor-emphasis: #636e7b;
+    --bgColor-disabled: #545d68;
+    --bgColor-neutral-muted: #636e7b26;
+    --bgColor-neutral-emphasis: #636e7b;
+    --bgColor-accent-muted: #4184e41a;
+    --bgColor-accent-emphasis: #316dca;
+    --bgColor-success-muted: #46954a26;
+    --bgColor-success-emphasis: #347d39;
+    --bgColor-attention-muted: #ae7c1426;
+    --bgColor-attention-emphasis: #966600;
+    --bgColor-severe-muted: #cc6b2c1a;
+    --bgColor-severe-emphasis: #ae5622;
+    --bgColor-danger-muted: #e5534b1a;
+    --bgColor-danger-emphasis: #c93c37;
+    --bgColor-open-muted: #46954a1a;
+    --bgColor-open-emphasis: #347d39;
+    --bgColor-closed-muted: #e5534b26;
+    --bgColor-closed-emphasis: #c93c37;
+    --bgColor-done-muted: #986ee226;
+    --bgColor-done-emphasis: #8256d0;
+    --bgColor-sponsors-muted: #c961981a;
+    --bgColor-sponsors-emphasis: #ae4c82;
+    --borderColor-default: #444c56;
+    --borderColor-muted: #444c5666;
+    --borderColor-emphasis: #545d68;
+    --borderColor-disabled: #444c56;
+    --borderColor-neutral-muted: #636e7b66;
+    --borderColor-neutral-emphasis: #636e7b;
+    --borderColor-accent-muted: #4184e466;
+    --borderColor-accent-emphasis: #316dca;
+    --borderColor-success-muted: #46954a66;
+    --borderColor-success-emphasis: #347d39;
+    --borderColor-attention-muted: #ae7c1466;
+    --borderColor-attention-emphasis: #966600;
+    --borderColor-severe-muted: #cc6b2c66;
+    --borderColor-severe-emphasis: #ae5622;
+    --borderColor-danger-muted: #e5534b66;
+    --borderColor-danger-emphasis: #c93c37;
+    --borderColor-open-muted: #46954a66;
+    --borderColor-open-emphasis: #347d39;
+    --borderColor-closed-muted: #e5534b66;
+    --borderColor-closed-emphasis: #c93c37;
+    --borderColor-done-muted: #986ee266;
+    --borderColor-done-emphasis: #8256d0;
+    --borderColor-sponsors-muted: #c9619866;
+    --borderColor-sponsors-emphasis: #ae4c82;
+    --ansi-fgColor-black: #545d68;
+    --ansi-fgColor-blackBright: #636e7b;
+    --ansi-fgColor-white: #909dab;
+    --ansi-fgColor-whiteBright: #cdd9e5;
+    --ansi-fgColor-gray: #636e7b;
+    --ansi-fgColor-red: #f47067;
+    --ansi-fgColor-redBright: #ff938a;
+    --ansi-fgColor-green: #57ab5a;
+    --ansi-fgColor-greenBright: #6bc46d;
+    --ansi-fgColor-yellow: #c69026;
+    --ansi-fgColor-yellowBright: #daaa3f;
+    --ansi-fgColor-blue: #539bf5;
+    --ansi-fgColor-blueBright: #6cb6ff;
+    --ansi-fgColor-magenta: #b083f0;
+    --ansi-fgColor-magentaBright: #dcbdfb;
+    --ansi-fgColor-cyan: #39c5cf;
+    --ansi-fgColor-cyanBright: #56d4dd;
+    --prettylights-syntax-comment: #768390;
+    --prettylights-syntax-constant: #6cb6ff;
+    --prettylights-syntax-entity: #dcbdfb;
+    --prettylights-syntax-storageModifierImport: #adbac7;
+    --prettylights-syntax-entityTag: #8ddb8c;
+    --prettylights-syntax-keyword: #f47067;
+    --prettylights-syntax-string: #96d0ff;
+    --prettylights-syntax-variable: #f69d50;
+    --prettylights-syntax-brackethighlighterUnmatched: #e5534b;
+    --prettylights-syntax-invalidIllegalText: #cdd9e5;
+    --prettylights-syntax-invalidIllegalBg: #922323;
+    --prettylights-syntax-carriageReturnText: #cdd9e5;
+    --prettylights-syntax-carriageReturnBg: #ad2e2c;
+    --prettylights-syntax-stringRegexp: #8ddb8c;
+    --prettylights-syntax-markupList: #eac55f;
+    --prettylights-syntax-markupHeading: #316dca;
+    --prettylights-syntax-markupItalic: #adbac7;
+    --prettylights-syntax-markupBold: #adbac7;
+    --prettylights-syntax-markupDeletedText: #ffd8d3;
+    --prettylights-syntax-markupDeletedBg: #78191b;
+    --prettylights-syntax-markupInsertedText: #b4f1b4;
+    --prettylights-syntax-markupInsertedBg: #1b4721;
+    --prettylights-syntax-markupChangedText: #ffddb0;
+    --prettylights-syntax-markupChangedBg: #682d0f;
+    --prettylights-syntax-markupIgnoredText: #adbac7;
+    --prettylights-syntax-markupIgnoredBg: #255ab2;
+    --prettylights-syntax-metaDiffRange: #dcbdfb;
+    --prettylights-syntax-brackethighlighterAngle: #768390;
+    --prettylights-syntax-sublimelinterGutterMark: #545d68;
+    --prettylights-syntax-constantOtherReferenceLink: #96d0ff;
+    --color-scale-black: #1c2128; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-transparent: #00000000; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-white: #cdd9e5; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-gray-0: #cdd9e5; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-gray-1: #adbac7; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-gray-2: #909dab; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-gray-3: #768390; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-gray-4: #636e7b; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-gray-5: #545d68; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-gray-6: #444c56; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-gray-7: #373e47; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-gray-8: #2d333b; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-gray-9: #22272e; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-blue-0: #c6e6ff; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-blue-1: #96d0ff; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-blue-2: #6cb6ff; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-blue-3: #539bf5; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-blue-4: #4184e4; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-blue-5: #316dca; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-blue-6: #255ab2; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-blue-7: #1b4b91; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-blue-8: #143d79; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-blue-9: #0f2d5c; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-green-0: #b4f1b4; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-green-1: #8ddb8c; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-green-2: #6bc46d; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-green-3: #57ab5a; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-green-4: #46954a; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-green-5: #347d39; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-green-6: #2b6a30; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-green-7: #245829; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-green-8: #1b4721; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-green-9: #113417; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-yellow-0: #fbe090; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-yellow-1: #eac55f; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-yellow-2: #daaa3f; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-yellow-3: #c69026; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-yellow-4: #ae7c14; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-yellow-5: #966600; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-yellow-6: #805400; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-yellow-7: #6c4400; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-yellow-8: #593600; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-yellow-9: #452700; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-orange-0: #ffddb0; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-orange-1: #ffbc6f; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-orange-2: #f69d50; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-orange-3: #e0823d; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-orange-4: #cc6b2c; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-orange-5: #ae5622; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-orange-6: #94471b; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-orange-7: #7f3913; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-orange-8: #682d0f; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-orange-9: #4d210c; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-red-0: #ffd8d3; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-red-1: #ffb8b0; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-red-2: #ff938a; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-red-3: #f47067; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-red-4: #e5534b; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-red-5: #c93c37; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-red-6: #ad2e2c; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-red-7: #922323; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-red-8: #78191b; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-red-9: #5d0f12; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-purple-0: #eedcff; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-purple-1: #dcbdfb; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-purple-2: #dcbdfb; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-purple-3: #b083f0; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-purple-4: #986ee2; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-purple-5: #8256d0; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-purple-6: #6b44bc; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-purple-7: #5936a2; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-purple-8: #472c82; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-purple-9: #352160; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-pink-0: #ffd7eb; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-pink-1: #ffb3d8; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-pink-2: #fc8dc7; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-pink-3: #e275ad; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-pink-4: #c96198; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-pink-5: #ae4c82; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-pink-6: #983b6e; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-pink-7: #7e325a; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-pink-8: #69264a; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-pink-9: #551639; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-coral-0: #ffdacf; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-coral-1: #ffb9a5; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-coral-2: #f79981; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-coral-3: #ec775c; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-coral-4: #de5b41; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-coral-5: #c2442d; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-coral-6: #a93524; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-coral-7: #8d291b; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-coral-8: #771d13; /* Avoid using scales, use other functional tokens instead */
+    --color-scale-coral-9: #5d1008; /* Avoid using scales, use other functional tokens instead */
+    --shadow-inset: 0px 0px 0px 0px #000000;
+    --shadow-highlight: 0px 0px 0px 0px #000000;
+    --shadow-resting-xsmall: 0px 1px 0px 0px #1c2128a3;
+    --shadow-resting-small: 0px 0px 0px 0px #000000;
+    --shadow-resting-medium: 0px 3px 6px 0px #1c2128;
+    --shadow-floating-small: 0px 0px 0px 1px #444c56, 0px 16px 32px 0px #1c2128d9;
+    --shadow-floating-medium: 0px 4px 32px -4px #636e7b17, 0px 8px 16px -4px #636e7b17, 0px 24px 48px -12px #636e7b29, 0px 48px 96px -24px #636e7b3d;
+    --shadow-floating-large: 0px 8px 24px 0px #1c2128;
+    --shadow-floating-xlarge: 0px 12px 48px 0px #1c2128;
+    --outline-focus: #316dca solid 2px;
+  }
+}

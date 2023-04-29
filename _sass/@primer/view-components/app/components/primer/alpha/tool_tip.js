@@ -191,19 +191,12 @@ class ToolTipElement extends HTMLElement {
         __classPrivateFieldGet(this, _ToolTipElement_instances, "m", _ToolTipElement_updateDirection).call(this);
         if (!this.shadowRoot) {
             const shadow = this.attachShadow({ mode: 'open' });
-            // eslint-disable-next-line github/no-inner-html
-            shadow.innerHTML = `
-        <style>
-          ${this.styles()}
-        </style>
-        <slot></slot>
-      `;
+            const style = shadow.appendChild(document.createElement('style'));
+            style.textContent = this.styles();
+            shadow.appendChild(document.createElement('slot'));
         }
         this.hiddenFromView = true;
         __classPrivateFieldSet(this, _ToolTipElement_allowUpdatePosition, true, "f");
-        if (!this.id) {
-            this.id = `tooltip-${Date.now()}-${(Math.random() * 10000).toFixed(0)}`;
-        }
         if (!this.control)
             return;
         this.setAttribute('role', 'tooltip');

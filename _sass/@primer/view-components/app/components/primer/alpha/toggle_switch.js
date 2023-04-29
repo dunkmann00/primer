@@ -81,9 +81,13 @@ let ToggleSwitchElement = class ToggleSwitchElement extends HTMLElement {
         this.loadingSpinner.removeAttribute('hidden');
     }
     setSuccessState() {
+        const event = new CustomEvent('toggleSwitchSuccess', { bubbles: true });
+        this.dispatchEvent(event);
         this.setFinishedState(false);
     }
-    setErrorState() {
+    setErrorState(message) {
+        const event = new CustomEvent('toggleSwitchError', { bubbles: true, detail: message });
+        this.dispatchEvent(event);
         this.setFinishedState(true);
     }
     setFinishedState(error) {
@@ -102,24 +106,32 @@ let ToggleSwitchElement = class ToggleSwitchElement extends HTMLElement {
         try {
             if (!this.src)
                 throw new Error('invalid src');
-            const response = await fetch(this.src, {
-                credentials: 'same-origin',
-                method: 'POST',
-                headers: {
-                    'Requested-With': 'XMLHttpRequest'
-                },
-                body
-            });
+            let response;
+            try {
+                response = await fetch(this.src, {
+                    credentials: 'same-origin',
+                    method: 'POST',
+                    headers: {
+                        'Requested-With': 'XMLHttpRequest'
+                    },
+                    body
+                });
+            }
+            catch (error) {
+                throw new Error('A network error occurred, please try again.');
+            }
             if (response.ok) {
                 this.setSuccessState();
                 this.performToggle();
             }
             else {
-                this.setErrorState();
+                throw new Error(await response.text());
             }
         }
         catch (error) {
-            this.setErrorState();
+            if (error instanceof Error) {
+                this.setErrorState(error.message || 'An error occurred, please try again.');
+            }
         }
     }
 };
