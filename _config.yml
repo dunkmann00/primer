@@ -8,7 +8,7 @@ sass:
 theme: jekyll-v4-theme-primer
 
 primer:
-  theme: light
+  theme: auto
 
 github:
   private: false
