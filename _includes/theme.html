@@ -7,5 +7,5 @@
   {%- assign partial_theme = theme | remove_first: "auto" -%}
   data-color-mode="auto" data-light-theme="light{{ partial_theme }}" data-dark-theme="dark{{ partial_theme }}"
 {%- else -%}
-  data-color-mode="light" data-light-theme="light"
+  data-color-mode="auto" data-light-theme="light" data-dark-theme="dark"
 {%- endif -%}
