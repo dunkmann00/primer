@@ -1,1 +1,11 @@
-{"name":"beta/breadcrumbs","selectors":[".breadcrumb-item",".breadcrumb-item:after",".breadcrumb-item:first-child",".breadcrumb-item-selected:after",".breadcrumb-item[aria-current]:not([aria-current=false]):after",".breadcrumb-item-selected a"]}
+{
+  "name": "beta/breadcrumbs",
+  "selectors": [
+    ".breadcrumb-item",
+    ".breadcrumb-item:after",
+    ".breadcrumb-item:first-child",
+    ".breadcrumb-item-selected:after",
+    ".breadcrumb-item[aria-current]:not([aria-current=false]):after",
+    ".breadcrumb-item-selected a"
+  ]
+}

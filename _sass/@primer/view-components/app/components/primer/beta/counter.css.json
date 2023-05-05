@@ -1,1 +1,10 @@
-{"name":"beta/counter","selectors":[".Counter",".Counter:empty",".Counter .octicon",".Counter--primary",".Counter--secondary"]}
+{
+  "name": "beta/counter",
+  "selectors": [
+    ".Counter",
+    ".Counter:empty",
+    ".Counter .octicon",
+    ".Counter--primary",
+    ".Counter--secondary"
+  ]
+}

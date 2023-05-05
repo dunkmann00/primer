@@ -1,1 +1,12 @@
-{"name":"beta/subhead","selectors":[".Subhead",".Subhead--spacious",".Subhead-heading",".Subhead-heading--danger",".Subhead-description",".Subhead-actions",".Subhead-actions+.Subhead-description"]}
+{
+  "name": "beta/subhead",
+  "selectors": [
+    ".Subhead",
+    ".Subhead--spacious",
+    ".Subhead-heading",
+    ".Subhead-heading--danger",
+    ".Subhead-description",
+    ".Subhead-actions",
+    ".Subhead-actions+.Subhead-description"
+  ]
+}
