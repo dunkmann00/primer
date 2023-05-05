@@ -2,7 +2,10 @@
 
 [![.github/workflows/ci.yaml](https://github.com/dunkmann00/primer/actions/workflows/ci.yaml/badge.svg)](https://github.com/dunkmann00/primer/actions/workflows/ci.yaml) [![Gem Version](https://badge.fury.io/rb/jekyll-v4-theme-primer.svg)](https://badge.fury.io/rb/jekyll-v4-theme-primer)
 
-*Primer is a Jekyll theme for GitHub Pages. You can [preview the theme to see what it looks like](https://georgeh2os.com/primer), or even [use it today](#usage).*
+*Primer is a Jekyll theme for GitHub Pages. You can [preview the theme to see what it looks like](https://www.georgeh2os.com/primer/), or even [use it today](#usage).*
+
+**This theme is not an official theme for Github Pages**. This is a fork of the original `primer` theme that I have
+modified to support Jekyll v4 and a newer version of [Primer CSS](https://primer.style/css/).
 
 
 ## Usage
@@ -12,7 +15,7 @@ To use the Primer theme:
 1. Add the following to your site's `_config.yml`:
 
     ```yml
-    remote_theme: dunkmann00/primer@v0.9.0
+    remote_theme: dunkmann00/primer@v0.12.0
     plugins:
     - jekyll-remote-theme # add this line to the plugins list if you already have one
     ```
@@ -36,7 +39,7 @@ To use the Primer theme:
 
 Primer will set the theme based on the theme value set in `_config.yml`. This
 can be overridden on a per page basis by setting a `theme` variable in the
-page's frontmatter. If neither is given, the default theme is used.
+page's frontmatter. If neither is given, the default theme (`auto`) is used.
 
 ```yml
 primer:
