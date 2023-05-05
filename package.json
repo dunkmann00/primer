@@ -9,7 +9,7 @@
   "author": "Ben Balter",
   "license": "MIT",
   "dependencies": {
-    "@primer/css": "^20.7.1"
+    "@primer/css": "^21.0.0"
   },
   "devDependencies": {
     "@primer/sync": "^2.0.0"

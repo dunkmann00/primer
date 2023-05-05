@@ -49,6 +49,17 @@ function clickHandler(event) {
         topLevelDialog.close(true);
     }
 }
+function keydownHandler(event) {
+    if (!(event instanceof KeyboardEvent) ||
+        event.type !== 'keydown' ||
+        event.key !== 'Enter' ||
+        event.ctrlKey ||
+        event.altKey ||
+        event.metaKey ||
+        event.shiftKey)
+        return;
+    clickHandler(event);
+}
 function mousedownHandler(event) {
     const target = event.target;
     if (target === null || target === void 0 ? void 0 : target.closest('button'))
@@ -122,6 +133,7 @@ export class ModalDialogElement extends HTMLElement {
         if (!this.hasAttribute('role'))
             this.setAttribute('role', 'dialog');
         document.addEventListener('click', clickHandler);
+        document.addEventListener('keydown', keydownHandler);
         document.addEventListener('mousedown', mousedownHandler);
         this.addEventListener('keydown', e => __classPrivateFieldGet(this, _ModalDialogElement_instances, "m", _ModalDialogElement_keydown).call(this, e));
     }

@@ -18,7 +18,10 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
 var _PrimerTextFieldElement_abortController;
 import '@github/auto-check-element';
 import { controller, target } from '@github/catalyst';
-let PrimerTextFieldElement = class PrimerTextFieldElement extends HTMLElement {
+// eslint-disable-next-line custom-elements/expose-class-on-global
+let PrimerTextFieldElement = 
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+class PrimerTextFieldElement extends HTMLElement {
     constructor() {
         super(...arguments);
         _PrimerTextFieldElement_abortController.set(this, void 0);
@@ -27,22 +30,29 @@ let PrimerTextFieldElement = class PrimerTextFieldElement extends HTMLElement {
         var _a;
         (_a = __classPrivateFieldGet(this, _PrimerTextFieldElement_abortController, "f")) === null || _a === void 0 ? void 0 : _a.abort();
         const { signal } = (__classPrivateFieldSet(this, _PrimerTextFieldElement_abortController, new AbortController(), "f"));
-        this.inputElement.addEventListener('auto-check-success', () => { this.clearError(); }, { signal });
-        this.inputElement.addEventListener('auto-check-error', (event) => {
-            event.detail.response.text().then((error_message) => { this.setError(error_message); });
+        this.inputElement.addEventListener('auto-check-success', () => {
+            this.clearError();
+        }, { signal });
+        this.inputElement.addEventListener('auto-check-error', async (event) => {
+            const errorMessage = await event.detail.response.text();
+            this.setError(errorMessage);
         }, { signal });
     }
     disconnectedCallback() {
         var _a;
         (_a = __classPrivateFieldGet(this, _PrimerTextFieldElement_abortController, "f")) === null || _a === void 0 ? void 0 : _a.abort();
     }
+    clearContents() {
+        this.inputElement.value = '';
+        this.inputElement.focus();
+    }
     clearError() {
         this.inputElement.removeAttribute('invalid');
         this.validationElement.hidden = true;
-        this.validationMessageElement.innerText = '';
+        this.validationMessageElement.textContent = '';
     }
     setError(message) {
-        this.validationMessageElement.innerText = message;
+        this.validationMessageElement.textContent = message;
         this.validationElement.hidden = false;
         this.inputElement.setAttribute('invalid', 'true');
     }
@@ -59,4 +69,5 @@ __decorate([
 ], PrimerTextFieldElement.prototype, "validationMessageElement", void 0);
 PrimerTextFieldElement = __decorate([
     controller
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 ], PrimerTextFieldElement);
