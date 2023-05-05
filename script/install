@@ -4,6 +4,7 @@
 set -e
 
 npm install
+rm -rf _sass/node_modules
 mv node_modules _sass
 ln -s _sass node_modules
 
@@ -24,25 +25,25 @@ content='
 [data-color-mode=dark][data-dark-theme*=light] {
   @import "rouge-light.scss";
 }
-
 [data-color-mode=light][data-light-theme*=dark],
 [data-color-mode=dark][data-dark-theme*=dark] {
   @import "rouge-dark.scss";
 }
-
 @media(prefers-color-scheme: light) {
   [data-color-mode=auto][data-light-theme*=light]{
     @import "rouge-light.scss";
   }
 }
-
 @media(prefers-color-scheme: dark) {
   [data-color-mode=auto][data-dark-theme*=dark]{
     @import "rouge-dark.scss";
   }
 }
+div.highlight {
+  border-radius: 6px;
+}
 '
-echo "$content" >> _sass/jekyll-theme-primer.scss
+echo "$content" > _sass/jekyll-v4-theme-primer.scss
 
 # Create rouge stylesheet
 rougify style github.light > _sass/rouge-light.scss
