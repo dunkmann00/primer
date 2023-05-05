@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name          = "jekyll-v4-theme-primer"
-  s.version       = "0.11.0"
+  s.version       = "0.12.0"
   s.authors       = ["GitHub, Inc.", "George Waters"]
   s.email         = ["open-source@github.com", "gwatersdev@gmail.com"]
   s.homepage      = "https://github.com/dunkmann00/primer"
