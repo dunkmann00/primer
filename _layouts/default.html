@@ -11,9 +11,10 @@
   </head>
   <body>
     <div class="container-lg px-3 my-5 markdown-body">
-      {% if site.title and site.title != page.title %}
+      {% capture heading %}{% if page.layout == "home" and site.primer.home_heading == false %}false{% else %}true{% endif %}{% endcapture -%}
+      {% if site.title and site.title != page.title and heading == "true" %}
       <h1><a href="{{ "/" | absolute_url }}">{{ site.title }}</a></h1>
-      {% endif %}
+      {%- endif %}
 
       {{ content }}
 
