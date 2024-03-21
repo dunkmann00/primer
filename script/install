@@ -44,9 +44,21 @@ content='
 div.highlight {
   border-radius: 6px;
 }
+.markdown-body div.highlighter-rouge>div.highlight {
+  display: flex;
+  justify-content: space-between;
+}
+
+clipboard-copy {
+    height: 28px;
+    width: 28px;
+}
 '
 echo "$content" > _sass/jekyll-v4-theme-primer.scss
 
 # Create rouge stylesheet
 rougify style github.light > _sass/rouge-light.scss
 rougify style github.dark > _sass/rouge-dark.scss
+
+# Copy @github/clipboard_copy_element into assets/js
+cp _sass/node_modules/@github/clipboard-copy-element/dist/bundle.js assets/js/github_clipboard_copy_element.js

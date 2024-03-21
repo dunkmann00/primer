@@ -35,8 +35,10 @@ function makeCopyButtons() {
 
     const blocks = document.querySelectorAll('div.highlighter-rouge>div.highlight');
     blocks.forEach((block) => {
+        // Fix quotes
+        sanitized = block.textContent.replaceAll('"', '&quot;')
         // Put this blocks content into the clipboard string
-        block_clipboard = clipboard.format(block.textContent);
+        block_clipboard = clipboard.format(sanitized);
         // Make an html element from the block clipboard string
         block_clipboard_node = fromHTML(block_clipboard);
         // Add it in to the end of the html code block
