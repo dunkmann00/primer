@@ -21,6 +21,8 @@ content='
 @import "@primer/css/utilities/index.scss";
 @import "@primer/css/layout/index.scss";
 @import "@primer/css/markdown/index.scss";
+@import "@primer/css/buttons/index.scss";
+@import "@primer/css/tooltips/index.scss";
 [data-color-mode=light][data-light-theme*=light],
 [data-color-mode=dark][data-dark-theme*=light] {
   @import "rouge-light.scss";
