@@ -1,3 +1,5 @@
+import './github-clipboard-copy-element.js';
+http://localhost:4000/assets/js/github_clipboard_copy_element
 String.prototype.format = function () {
   var args = arguments;
   return this.replace(/{([0-9]+)}/g, function (match, index) {
@@ -22,7 +24,7 @@ function fromHTML(html, trim = true) {
 }
 
 function makeCopyButtons() {
-    clipboard = `
+    const clipboard = `
     <div>
       <clipboard-copy aria-label="Copy" class="btn btn-invisible m-2 p-0 tooltipped-no-delay d-flex flex-justify-center flex-items-center" value="{0}" tabindex="0" role="button">
         <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
@@ -38,11 +40,11 @@ function makeCopyButtons() {
     const blocks = document.querySelectorAll('div.highlighter-rouge>div.highlight');
     blocks.forEach((block) => {
         // Fix quotes
-        sanitized = block.textContent.replaceAll('"', '&quot;')
+        const sanitized = block.textContent.replaceAll('"', '&quot;')
         // Put this blocks content into the clipboard string
-        block_clipboard = clipboard.format(sanitized);
+        const block_clipboard = clipboard.format(sanitized);
         // Make an html element from the block clipboard string
-        block_clipboard_node = fromHTML(block_clipboard);
+        const block_clipboard_node = fromHTML(block_clipboard);
         // Add it in to the end of the html code block
         block.appendChild(block_clipboard_node);
     });
