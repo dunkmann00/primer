@@ -61,4 +61,4 @@ rougify style github.light > _sass/rouge-light.scss
 rougify style github.dark > _sass/rouge-dark.scss
 
 # Copy @github/clipboard_copy_element into assets/js
-cp _sass/node_modules/@github/clipboard-copy-element/dist/bundle.js assets/js/github_clipboard_copy_element.js
+cp _sass/node_modules/@github/clipboard-copy-element/dist/bundle.js assets/js/github-clipboard-copy-element.js
