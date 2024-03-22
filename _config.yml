@@ -9,6 +9,7 @@ theme: jekyll-v4-theme-primer
 
 primer:
   theme: auto
+  home_heading: true
 
 github:
   private: false

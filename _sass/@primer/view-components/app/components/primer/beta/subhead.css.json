@@ -4,6 +4,8 @@
     ".Subhead",
     ".Subhead--spacious",
     ".Subhead-heading",
+    ".Subhead-heading--large",
+    ".Subhead-heading--medium",
     ".Subhead-heading--danger",
     ".Subhead-description",
     ".Subhead-actions",

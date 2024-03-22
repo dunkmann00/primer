@@ -20,17 +20,17 @@ let SegmentedControlElement = class SegmentedControlElement extends HTMLElement 
         __classPrivateFieldGet(this, _SegmentedControlElement_instances, "m", _SegmentedControlElement_updateButtonLabels).call(this);
     }
     select(event) {
-        var _a, _b;
         const button = event.currentTarget;
         for (const item of this.items) {
             item.classList.remove('SegmentedControl-item--selected');
-            (_a = item.querySelector('[aria-current]')) === null || _a === void 0 ? void 0 : _a.setAttribute('aria-current', 'false');
+            item.querySelector('[aria-current]')?.setAttribute('aria-current', 'false');
         }
-        (_b = button.closest('li.SegmentedControl-item')) === null || _b === void 0 ? void 0 : _b.classList.add('SegmentedControl-item--selected');
+        button.closest('li.SegmentedControl-item')?.classList.add('SegmentedControl-item--selected');
         button.setAttribute('aria-current', 'true');
     }
 };
-_SegmentedControlElement_instances = new WeakSet(), _SegmentedControlElement_updateButtonLabels = function _SegmentedControlElement_updateButtonLabels() {
+_SegmentedControlElement_instances = new WeakSet();
+_SegmentedControlElement_updateButtonLabels = function _SegmentedControlElement_updateButtonLabels() {
     for (const label of this.querySelectorAll('.Button-label')) {
         label.setAttribute('data-content', label.textContent || '');
     }

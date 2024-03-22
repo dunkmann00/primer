@@ -4,24 +4,39 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var _XBannerElement_instances, _XBannerElement_dismissScheme_get;
 import { controller, target } from '@github/catalyst';
 let XBannerElement = class XBannerElement extends HTMLElement {
+    constructor() {
+        super(...arguments);
+        _XBannerElement_instances.add(this);
+    }
     dismiss() {
-        if (this.shouldReappear()) {
-            this.style.setProperty('visibility', 'hidden');
-            setTimeout(() => {
-                this.style.setProperty('visibility', 'visible');
-            }, 2000);
-            return;
-        }
         const parentElement = this.parentElement;
         if (!parentElement)
             return;
-        parentElement.removeChild(this);
+        if (__classPrivateFieldGet(this, _XBannerElement_instances, "a", _XBannerElement_dismissScheme_get) === 'remove') {
+            parentElement.removeChild(this);
+        }
+        else {
+            this.hide();
+        }
     }
-    shouldReappear() {
-        return this.getAttribute('data-reappear') === 'true';
+    show() {
+        this.style.setProperty('display', 'initial');
     }
+    hide() {
+        this.style.setProperty('display', 'none');
+    }
+};
+_XBannerElement_instances = new WeakSet();
+_XBannerElement_dismissScheme_get = function _XBannerElement_dismissScheme_get() {
+    return this.getAttribute('data-dismiss-scheme');
 };
 __decorate([
     target

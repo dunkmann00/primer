@@ -46,6 +46,15 @@ primer:
   theme: light
 ```
 
+Primer will not include the site title on the home page if the `home_heading`
+value is set to false in the `_config.yml`. This can be useful when you already
+include the title in the content on the home page, making it redundant.
+
+```yml
+primer:
+  home_heading: false
+```
+
 Primer will respect the following variables, if set in your site's `_config.yml`:
 
 ```yml
@@ -58,6 +67,15 @@ Additionally, you may choose to set the following optional variables:
 ```yml
 show_downloads: ["true" or "false" (unquoted) to indicate whether to provide a download URL]
 google_analytics: [Your Google Analytics tracking ID]
+```
+
+### Code block copy button
+
+Primer will automatically put a code copy button in any code blocks you write.
+This is similar to the behavior seen in Readmes on GitHub.
+
+```bash
+echo "Hello World"
 ```
 
 ### Stylesheet

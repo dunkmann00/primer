@@ -9,11 +9,32 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _ToolTipElement_instances, _ToolTipElement_abortController, _ToolTipElement_align, _ToolTipElement_side, _ToolTipElement_allowUpdatePosition, _ToolTipElement_update, _ToolTipElement_updateControlReference, _ToolTipElement_updateDirection, _ToolTipElement_updatePosition;
+var _ToolTipElement_instances, _ToolTipElement_abortController, _ToolTipElement_align, _ToolTipElement_side, _ToolTipElement_allowUpdatePosition, _ToolTipElement_showReason, _ToolTipElement_update, _ToolTipElement_updateControlReference, _ToolTipElement_updateDirection, _ToolTipElement_updatePosition;
+import '@oddbird/popover-polyfill';
 import { getAnchoredPosition } from '@primer/behaviors';
-const TOOLTIP_OPEN_CLASS = 'tooltip-open';
+const isPopoverOpen = (() => {
+    let selector;
+    function setSelector(el) {
+        try {
+            selector = ':popover-open';
+            return el.matches(selector);
+        }
+        catch {
+            try {
+                selector = ':open';
+                return el.matches(':open');
+            }
+            catch {
+                selector = '.\\:popover-open';
+                return el.matches('.\\:popover-open');
+            }
+        }
+    }
+    return (el) => (selector ? el.matches(selector) : setSelector(el));
+})();
 const TOOLTIP_ARROW_EDGE_OFFSET = 6;
 const TOOLTIP_SR_ONLY_CLASS = 'sr-only';
+const TOOLTIP_OFFSET = 10;
 const DIRECTION_CLASSES = [
     'tooltip-n',
     'tooltip-s',
@@ -22,8 +43,34 @@ const DIRECTION_CLASSES = [
     'tooltip-ne',
     'tooltip-se',
     'tooltip-nw',
-    'tooltip-sw'
+    'tooltip-sw',
 ];
+function closeOpenTooltips(except) {
+    for (const tooltip of openTooltips) {
+        if (tooltip === except)
+            continue;
+        if (isPopoverOpen(tooltip)) {
+            tooltip.hidePopover();
+        }
+        else {
+            openTooltips.delete(tooltip);
+        }
+    }
+}
+function focusOutListener() {
+    closeOpenTooltips();
+}
+function focusInListener(event) {
+    setTimeout(() => {
+        for (const tooltip of openTooltips) {
+            if (isPopoverOpen(tooltip) && tooltip.showReason === 'focus' && tooltip.control !== event.target) {
+                tooltip.hidePopover();
+            }
+        }
+    }, 0);
+}
+const tooltips = new Set();
+const openTooltips = new Set();
 class ToolTipElement extends HTMLElement {
     constructor() {
         super(...arguments);
@@ -32,16 +79,14 @@ class ToolTipElement extends HTMLElement {
         _ToolTipElement_align.set(this, 'center');
         _ToolTipElement_side.set(this, 'outside-bottom');
         _ToolTipElement_allowUpdatePosition.set(this, false);
+        _ToolTipElement_showReason.set(this, 'mouse');
     }
     styles() {
         return `
       :host {
-        position: absolute;
-        z-index: 1000000;
-        padding: .5em .75em;
-        font: normal normal 11px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-        -webkit-font-smoothing: subpixel-antialiased;
-        color: var(--color-fg-on-emphasis);
+        padding: var(--overlay-paddingBlock-condensed) var(--overlay-padding-condensed) !important;
+        font: var(--text-body-shorthand-small);
+        color: var(--fgColor-onEmphasis, var(--color-fg-on-emphasis)) !important;
         text-align: center;
         text-decoration: none;
         text-shadow: none;
@@ -49,30 +94,34 @@ class ToolTipElement extends HTMLElement {
         letter-spacing: normal;
         word-wrap: break-word;
         white-space: pre;
-        background: var(--color-neutral-emphasis-plus);
-        border-radius: 6px;
+        background: var(--bgColor-emphasis, var(--color-neutral-emphasis-plus)) !important;
+        border-radius: var(--borderRadius-medium);
+        border: 0 !important;
         opacity: 0;
-        max-width: 250px;
+        max-width: var(--overlay-width-small);
         word-wrap: break-word;
         white-space: normal;
-        width: max-content;
+        width: max-content !important;
+        inset: var(--tool-tip-position-top, 0) auto auto var(--tool-tip-position-left, 0) !important;
+        overflow: visible !important;
+        text-wrap: balance;
       }
 
       :host:before{
         position: absolute;
         z-index: 1000001;
-        color: var(--color-neutral-emphasis-plus);
+        color: var(--bgColor-emphasis, var(--color-neutral-emphasis-plus));
         content: "";
         border: 6px solid transparent;
-        opacity: 0
+        opacity: 0;
       }
 
       @keyframes tooltip-appear {
         from {
-          opacity: 0
+          opacity: 0;
         }
         to {
-          opacity: 1
+          opacity: 1;
         }
       }
 
@@ -82,16 +131,24 @@ class ToolTipElement extends HTMLElement {
         right: 0;
         left: 0;
         height: 12px;
-        content: ""
+        content: "";
       }
 
-      :host(.${TOOLTIP_OPEN_CLASS}),
-      :host(.${TOOLTIP_OPEN_CLASS}):before {
+      :host(:popover-open),
+      :host(:popover-open):before {
         animation-name: tooltip-appear;
         animation-duration: .1s;
         animation-fill-mode: forwards;
         animation-timing-function: ease-in;
-        animation-delay: .4s
+      }
+
+      :host(.\\:popover-open),
+      :host(.\\:popover-open):before {
+        animation-name: tooltip-appear;
+        animation-duration: .1s;
+        animation-fill-mode: forwards;
+        animation-timing-function: ease-in;
+        animation-delay: .4s;
       }
 
       :host(.tooltip-s):before,
@@ -99,61 +156,66 @@ class ToolTipElement extends HTMLElement {
         right: 50%;
         margin-right: -${TOOLTIP_ARROW_EDGE_OFFSET}px;
       }
-
       :host(.tooltip-s):before,
       :host(.tooltip-se):before,
       :host(.tooltip-sw):before {
         bottom: 100%;
-        border-bottom-color: var(--color-neutral-emphasis-plus)
+        border-bottom-color: var(--bgColor-emphasis, var(--color-neutral-emphasis-plus));
       }
-
       :host(.tooltip-s):after,
       :host(.tooltip-se):after,
       :host(.tooltip-sw):after {
         bottom: 100%
       }
-
       :host(.tooltip-n):before,
       :host(.tooltip-ne):before,
       :host(.tooltip-nw):before {
         top: 100%;
-        border-top-color: var(--color-neutral-emphasis-plus)
+        border-top-color: var(--bgColor-emphasis, var(--color-neutral-emphasis-plus));
       }
-
       :host(.tooltip-n):after,
       :host(.tooltip-ne):after,
       :host(.tooltip-nw):after {
-        top: 100%
+        top: 100%;
       }
-
       :host(.tooltip-se):before,
       :host(.tooltip-ne):before {
         left: 0;
         margin-left: ${TOOLTIP_ARROW_EDGE_OFFSET}px;
       }
-
       :host(.tooltip-sw):before,
       :host(.tooltip-nw):before {
         right: 0;
         margin-right: ${TOOLTIP_ARROW_EDGE_OFFSET}px;
       }
-
       :host(.tooltip-w):before {
         top: 50%;
         bottom: 50%;
         left: 100%;
         margin-top: -6px;
-        border-left-color: var(--color-neutral-emphasis-plus)
+        border-left-color: var(--bgColor-emphasis, var(--color-neutral-emphasis-plus));
       }
-
       :host(.tooltip-e):before {
         top: 50%;
         right: 100%;
         bottom: 50%;
         margin-top: -6px;
-        border-right-color: var(--color-neutral-emphasis-plus)
+        border-right-color: var(--bgColor-emphasis, var(--color-neutral-emphasis-plus));
+      }
+
+      @media (forced-colors: active) {
+        :host {
+          outline: solid 1px transparent;
+        }
+
+        :host:before {
+          display: none;
+        }
       }
     `;
+    }
+    get showReason() {
+        return __classPrivateFieldGet(this, _ToolTipElement_showReason, "f");
     }
     get htmlFor() {
         return this.getAttribute('for') || '';
@@ -177,16 +239,21 @@ class ToolTipElement extends HTMLElement {
     get control() {
         return this.ownerDocument.getElementById(this.htmlFor);
     }
+    /* @deprecated */
     set hiddenFromView(value) {
-        this.classList.toggle(TOOLTIP_SR_ONLY_CLASS, value);
-        if (this.isConnected)
-            __classPrivateFieldGet(this, _ToolTipElement_instances, "m", _ToolTipElement_update).call(this);
+        if (value && isPopoverOpen(this)) {
+            this.hidePopover();
+        }
+        else if (!value && !isPopoverOpen(this)) {
+            this.showPopover();
+        }
     }
+    /* @deprecated */
     get hiddenFromView() {
-        return this.classList.contains(TOOLTIP_SR_ONLY_CLASS);
+        return !isPopoverOpen(this);
     }
     connectedCallback() {
-        var _a;
+        tooltips.add(this);
         __classPrivateFieldGet(this, _ToolTipElement_instances, "m", _ToolTipElement_updateControlReference).call(this);
         __classPrivateFieldGet(this, _ToolTipElement_instances, "m", _ToolTipElement_updateDirection).call(this);
         if (!this.shadowRoot) {
@@ -195,44 +262,66 @@ class ToolTipElement extends HTMLElement {
             style.textContent = this.styles();
             shadow.appendChild(document.createElement('slot'));
         }
-        this.hiddenFromView = true;
+        __classPrivateFieldGet(this, _ToolTipElement_instances, "m", _ToolTipElement_update).call(this, false);
         __classPrivateFieldSet(this, _ToolTipElement_allowUpdatePosition, true, "f");
         if (!this.control)
             return;
         this.setAttribute('role', 'tooltip');
-        (_a = __classPrivateFieldGet(this, _ToolTipElement_abortController, "f")) === null || _a === void 0 ? void 0 : _a.abort();
+        __classPrivateFieldGet(this, _ToolTipElement_abortController, "f")?.abort();
         __classPrivateFieldSet(this, _ToolTipElement_abortController, new AbortController(), "f");
         const { signal } = __classPrivateFieldGet(this, _ToolTipElement_abortController, "f");
         this.addEventListener('mouseleave', this, { signal });
+        this.addEventListener('toggle', this, { signal });
         this.control.addEventListener('mouseenter', this, { signal });
         this.control.addEventListener('mouseleave', this, { signal });
         this.control.addEventListener('focus', this, { signal });
-        this.control.addEventListener('blur', this, { signal });
-        this.ownerDocument.addEventListener('keydown', this, { signal });
-        __classPrivateFieldGet(this, _ToolTipElement_instances, "m", _ToolTipElement_update).call(this);
+        this.control.addEventListener('mousedown', this, { signal });
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore popoverTargetElement is not in the type definition
+        this.control.popoverTargetElement?.addEventListener('beforetoggle', this, {
+            signal,
+        });
+        this.ownerDocument.addEventListener('focusout', focusOutListener);
+        this.ownerDocument.addEventListener('focusin', focusInListener);
+        this.ownerDocument.addEventListener('keydown', this, { signal, capture: true });
     }
     disconnectedCallback() {
-        var _a;
-        (_a = __classPrivateFieldGet(this, _ToolTipElement_abortController, "f")) === null || _a === void 0 ? void 0 : _a.abort();
+        tooltips.delete(this);
+        openTooltips.delete(this);
+        __classPrivateFieldGet(this, _ToolTipElement_abortController, "f")?.abort();
     }
-    handleEvent(event) {
+    async handleEvent(event) {
         if (!this.control)
             return;
+        const showing = isPopoverOpen(this);
         // Ensures that tooltip stays open when hovering between tooltip and element
         // WCAG Success Criterion 1.4.13 Hoverable
-        if ((event.type === 'mouseenter' || event.type === 'focus') && this.hiddenFromView) {
-            this.hiddenFromView = false;
-        }
-        else if (event.type === 'blur') {
-            this.hiddenFromView = true;
-        }
-        else if (event.type === 'mouseleave' &&
+        const shouldShow = event.type === 'mouseenter' ||
+            // Only show tooltip on focus if running in headless browser (for tests) or if focus ring
+            // is visible (i.e. if user is using keyboard navigation)
+            (event.type === 'focus' && (navigator.webdriver || this.control.matches(':focus-visible')));
+        const isMouseLeaveFromButton = event.type === 'mouseleave' &&
             event.relatedTarget !== this.control &&
-            event.relatedTarget !== this) {
-            this.hiddenFromView = true;
+            event.relatedTarget !== this;
+        const isEscapeKeydown = event.type === 'keydown' && event.key === 'Escape';
+        const isMouseDownOnButton = event.type === 'mousedown' && event.currentTarget === this.control;
+        const isOpeningOtherPopover = event.type === 'beforetoggle' && event.currentTarget !== this;
+        const shouldHide = isMouseLeaveFromButton || isEscapeKeydown || isMouseDownOnButton || isOpeningOtherPopover;
+        if (showing && isEscapeKeydown) {
+            /* eslint-disable-next-line no-restricted-syntax */
+            event.stopImmediatePropagation();
+            event.preventDefault();
         }
-        else if (event.type === 'keydown' && event.key === 'Escape' && !this.hiddenFromView) {
-            this.hiddenFromView = true;
+        await Promise.resolve();
+        if (!showing && shouldShow && !isPopoverOpen(this)) {
+            __classPrivateFieldSet(this, _ToolTipElement_showReason, event.type === 'mouseenter' ? 'mouse' : 'focus', "f");
+            this.showPopover();
+        }
+        else if (showing && shouldHide && isPopoverOpen(this)) {
+            this.hidePopover();
+        }
+        if (event.type === 'toggle') {
+            __classPrivateFieldGet(this, _ToolTipElement_instances, "m", _ToolTipElement_update).call(this, event.newState === 'open');
         }
     }
     attributeChangedCallback(name) {
@@ -246,17 +335,17 @@ class ToolTipElement extends HTMLElement {
         }
     }
 }
-_ToolTipElement_abortController = new WeakMap(), _ToolTipElement_align = new WeakMap(), _ToolTipElement_side = new WeakMap(), _ToolTipElement_allowUpdatePosition = new WeakMap(), _ToolTipElement_instances = new WeakSet(), _ToolTipElement_update = function _ToolTipElement_update() {
-    if (this.hiddenFromView) {
-        this.classList.remove(TOOLTIP_OPEN_CLASS, ...DIRECTION_CLASSES);
+_ToolTipElement_abortController = new WeakMap(), _ToolTipElement_align = new WeakMap(), _ToolTipElement_side = new WeakMap(), _ToolTipElement_allowUpdatePosition = new WeakMap(), _ToolTipElement_showReason = new WeakMap(), _ToolTipElement_instances = new WeakSet(), _ToolTipElement_update = function _ToolTipElement_update(isOpen) {
+    if (isOpen) {
+        openTooltips.add(this);
+        this.classList.remove(TOOLTIP_SR_ONLY_CLASS);
+        closeOpenTooltips(this);
+        __classPrivateFieldGet(this, _ToolTipElement_instances, "m", _ToolTipElement_updatePosition).call(this);
     }
     else {
-        this.classList.add(TOOLTIP_OPEN_CLASS);
-        for (const tooltip of this.ownerDocument.querySelectorAll(this.tagName)) {
-            if (tooltip !== this)
-                tooltip.hiddenFromView = true;
-        }
-        __classPrivateFieldGet(this, _ToolTipElement_instances, "m", _ToolTipElement_updatePosition).call(this);
+        openTooltips.delete(this);
+        this.classList.remove(...DIRECTION_CLASSES);
+        this.classList.add(TOOLTIP_SR_ONLY_CLASS);
     }
 }, _ToolTipElement_updateControlReference = function _ToolTipElement_updateControlReference() {
     if (!this.id || !this.control)
@@ -331,19 +420,17 @@ _ToolTipElement_abortController = new WeakMap(), _ToolTipElement_align = new Wea
 }, _ToolTipElement_updatePosition = function _ToolTipElement_updatePosition() {
     if (!this.control)
         return;
-    if (!__classPrivateFieldGet(this, _ToolTipElement_allowUpdatePosition, "f") || this.hiddenFromView)
+    if (!__classPrivateFieldGet(this, _ToolTipElement_allowUpdatePosition, "f") || !isPopoverOpen(this))
         return;
-    const TOOLTIP_OFFSET = 10;
-    this.style.left = `0px`; // Ensures we have reliable tooltip width in `getAnchoredPosition`
     const position = getAnchoredPosition(this, this.control, {
         side: __classPrivateFieldGet(this, _ToolTipElement_side, "f"),
         align: __classPrivateFieldGet(this, _ToolTipElement_align, "f"),
-        anchorOffset: TOOLTIP_OFFSET
+        anchorOffset: TOOLTIP_OFFSET,
     });
     const anchorSide = position.anchorSide;
     const align = position.anchorAlign;
-    this.style.top = `${position.top}px`;
-    this.style.left = `${position.left}px`;
+    this.style.setProperty('--tool-tip-position-top', `${position.top}px`);
+    this.style.setProperty('--tool-tip-position-left', `${position.left}px`);
     let direction = 's';
     if (anchorSide === 'outside-left') {
         direction = 'w';

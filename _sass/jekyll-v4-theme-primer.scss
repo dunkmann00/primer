@@ -5,6 +5,8 @@
 @import "@primer/css/utilities/index.scss";
 @import "@primer/css/layout/index.scss";
 @import "@primer/css/markdown/index.scss";
+@import "@primer/css/buttons/index.scss";
+@import "@primer/css/tooltips/index.scss";
 [data-color-mode=light][data-light-theme*=light],
 [data-color-mode=dark][data-dark-theme*=light] {
   @import "rouge-light.scss";
@@ -25,5 +27,14 @@
 }
 div.highlight {
   border-radius: 6px;
+}
+.markdown-body div.highlighter-rouge>div.highlight {
+  display: flex;
+  justify-content: space-between;
+}
+
+clipboard-copy {
+    height: 28px;
+    width: 28px;
 }
 

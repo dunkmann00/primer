@@ -44,7 +44,7 @@ const updateWhenVisible = (() => {
         intersectionObserver.observe(el);
     };
 })();
-export default class AnchoredPositionElement extends HTMLElement {
+class AnchoredPositionElement extends HTMLElement {
     constructor() {
         super(...arguments);
         _AnchoredPositionElement_anchorElement.set(this, null);
@@ -131,18 +131,26 @@ export default class AnchoredPositionElement extends HTMLElement {
         cancelAnimationFrame(__classPrivateFieldGet(this, _AnchoredPositionElement_animationFrame, "f"));
         __classPrivateFieldSet(this, _AnchoredPositionElement_animationFrame, requestAnimationFrame(() => {
             const anchor = this.anchorElement;
-            if (!anchor)
-                return;
-            const { left, top, anchorSide, anchorAlign } = getAnchoredPosition(this, anchor, this);
-            this.style.top = `${top}px`;
-            this.style.left = `${left}px`;
-            this.classList.remove('Overlay--anchorAlign-start', 'Overlay--anchorAlign-center', 'Overlay--anchorAlign-end', 'Overlay--anchorSide-insideTop', 'Overlay--anchorSide-insideBottom', 'Overlay--anchorSide-insideLeft', 'Overlay--anchorSide-insideRight', 'Overlay--anchorSide-insideCenter', 'Overlay--anchorSide-outsideTop', 'Overlay--anchorSide-outsideLeft', 'Overlay--anchorSide-outsideRight');
-            this.classList.add(`Overlay--anchorAlign-${anchorAlign}`, `Overlay--anchorSide-${anchorSide}`);
+            this.classList.toggle('not-anchored', !anchor);
+            if (anchor) {
+                const { left, top } = getAnchoredPosition(this, anchor, this);
+                this.style.top = `${top}px`;
+                this.style.left = `${left}px`;
+                this.style.bottom = 'auto';
+                this.style.right = 'auto';
+            }
+            else {
+                this.style.top = '0';
+                this.style.left = '0';
+                this.style.bottom = '0';
+                this.style.right = '0';
+            }
         }), "f");
     }
 }
 _AnchoredPositionElement_anchorElement = new WeakMap(), _AnchoredPositionElement_animationFrame = new WeakMap();
 AnchoredPositionElement.observedAttributes = ['align', 'side', 'anchor', 'alignment-offset', 'allow-out-of-bounds'];
+export default AnchoredPositionElement;
 if (!customElements.get('anchored-position')) {
     window.AnchoredPositionElement = AnchoredPositionElement;
     customElements.define('anchored-position', AnchoredPositionElement);

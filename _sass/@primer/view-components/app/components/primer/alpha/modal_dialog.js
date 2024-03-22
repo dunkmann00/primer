@@ -14,39 +14,41 @@ import { focusTrap } from '@primer/behaviors';
 import { getFocusableChild } from '@primer/behaviors/utils';
 function focusIfNeeded(elem) {
     if (document.activeElement !== elem) {
-        elem === null || elem === void 0 ? void 0 : elem.focus();
+        elem?.focus();
     }
 }
 const overlayStack = [];
 function clickHandler(event) {
     const target = event.target;
-    const button = target === null || target === void 0 ? void 0 : target.closest('button');
-    if (!button)
+    const button = target?.closest('button');
+    if (!button || button.hasAttribute('disabled') || button.getAttribute('aria-disabled') === 'true')
         return;
     // If the user is clicking a valid dialog trigger
-    let dialogId = button === null || button === void 0 ? void 0 : button.getAttribute('data-show-dialog-id');
+    let dialogId = button?.getAttribute('data-show-dialog-id');
     if (dialogId) {
+        /* eslint-disable-next-line no-restricted-syntax */
         event.stopPropagation();
         const dialog = document.getElementById(dialogId);
         if (dialog instanceof ModalDialogElement) {
             dialog.openButton = button;
             dialog.show();
+            // A buttons default behaviour in some browsers it to send a pointer event
+            // If the behaviour is allowed through the dialog will be shown but then
+            // quickly hidden- as if it were never shown. This prevents that.
+            event.preventDefault();
             return;
         }
     }
-    // Find the top level dialog that is open.
-    const topLevelDialog = overlayStack[overlayStack.length - 1];
-    if (!topLevelDialog)
+    if (!overlayStack.length)
         return;
-    dialogId = button.getAttribute('data-close-dialog-id');
-    if (dialogId === topLevelDialog.id) {
-        overlayStack.pop();
-        topLevelDialog.close();
-    }
-    dialogId = button.getAttribute('data-submit-dialog-id');
-    if (dialogId === topLevelDialog.id) {
-        overlayStack.pop();
-        topLevelDialog.close(true);
+    dialogId = button.getAttribute('data-close-dialog-id') || button.getAttribute('data-submit-dialog-id');
+    if (dialogId) {
+        const dialog = document.getElementById(dialogId);
+        if (dialog instanceof ModalDialogElement) {
+            const dialogIndex = overlayStack.findIndex(ele => ele.id === dialogId);
+            overlayStack.splice(dialogIndex, 1);
+            dialog.close(button.hasAttribute('data-submit-dialog-id'));
+        }
     }
 }
 function keydownHandler(event) {
@@ -62,7 +64,7 @@ function keydownHandler(event) {
 }
 function mousedownHandler(event) {
     const target = event.target;
-    if (target === null || target === void 0 ? void 0 : target.closest('button'))
+    if (target?.closest('button'))
         return;
     // Find the top level dialog that is open.
     const topLevelDialog = overlayStack[overlayStack.length - 1];
@@ -91,31 +93,32 @@ export class ModalDialogElement extends HTMLElement {
         return this.hasAttribute('open');
     }
     set open(value) {
-        var _a, _b, _c, _d;
         if (value) {
             if (this.open)
                 return;
             this.setAttribute('open', '');
-            (_a = __classPrivateFieldGet(this, _ModalDialogElement_instances, "a", _ModalDialogElement_overlayBackdrop_get)) === null || _a === void 0 ? void 0 : _a.classList.remove('Overlay--hidden');
+            this.setAttribute('aria-disabled', 'false');
             document.body.style.paddingRight = `${window.innerWidth - document.body.clientWidth}px`;
             document.body.style.overflow = 'hidden';
+            __classPrivateFieldGet(this, _ModalDialogElement_instances, "a", _ModalDialogElement_overlayBackdrop_get)?.classList.remove('Overlay--hidden');
             if (__classPrivateFieldGet(this, _ModalDialogElement_focusAbortController, "f").signal.aborted) {
                 __classPrivateFieldSet(this, _ModalDialogElement_focusAbortController, new AbortController(), "f");
             }
-            focusTrap(this, undefined, __classPrivateFieldGet(this, _ModalDialogElement_focusAbortController, "f").signal);
+            focusTrap(this, this.querySelector('[autofocus]'), __classPrivateFieldGet(this, _ModalDialogElement_focusAbortController, "f").signal);
             overlayStack.push(this);
         }
         else {
             if (!this.open)
                 return;
             this.removeAttribute('open');
-            (_b = __classPrivateFieldGet(this, _ModalDialogElement_instances, "a", _ModalDialogElement_overlayBackdrop_get)) === null || _b === void 0 ? void 0 : _b.classList.add('Overlay--hidden');
+            this.setAttribute('aria-disabled', 'true');
+            __classPrivateFieldGet(this, _ModalDialogElement_instances, "a", _ModalDialogElement_overlayBackdrop_get)?.classList.add('Overlay--hidden');
             document.body.style.paddingRight = '0';
             document.body.style.overflow = 'initial';
             __classPrivateFieldGet(this, _ModalDialogElement_focusAbortController, "f").abort();
             // if #openButton is a child of a menu, we need to focus a suitable child of the menu
             // element since it is expected for the menu to close on click
-            const menu = ((_c = this.openButton) === null || _c === void 0 ? void 0 : _c.closest('details')) || ((_d = this.openButton) === null || _d === void 0 ? void 0 : _d.closest('action-menu'));
+            const menu = this.openButton?.closest('details') || this.openButton?.closest('action-menu');
             if (menu) {
                 focusIfNeeded(getFocusableChild(menu));
             }
@@ -150,8 +153,7 @@ export class ModalDialogElement extends HTMLElement {
     }
 }
 _ModalDialogElement_focusAbortController = new WeakMap(), _ModalDialogElement_instances = new WeakSet(), _ModalDialogElement_overlayBackdrop_get = function _ModalDialogElement_overlayBackdrop_get() {
-    var _a;
-    if ((_a = this.parentElement) === null || _a === void 0 ? void 0 : _a.hasAttribute('data-modal-dialog-overlay')) {
+    if (this.parentElement?.hasAttribute('data-modal-dialog-overlay')) {
         return this.parentElement;
     }
     return null;
@@ -160,14 +162,23 @@ _ModalDialogElement_focusAbortController = new WeakMap(), _ModalDialogElement_in
         return;
     if (event.isComposing)
         return;
+    if (!this.open)
+        return;
     switch (event.key) {
         case 'Escape':
-            if (this.open) {
-                this.close();
-                event.preventDefault();
+            this.close();
+            event.preventDefault();
+            /* eslint-disable-next-line no-restricted-syntax */
+            event.stopPropagation();
+            break;
+        case 'Enter': {
+            const target = event.target;
+            if (target.getAttribute('data-close-dialog-id') === this.id) {
+                /* eslint-disable-next-line no-restricted-syntax */
                 event.stopPropagation();
             }
             break;
+        }
     }
 };
 if (!window.customElements.get('modal-dialog')) {

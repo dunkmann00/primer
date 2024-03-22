@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { controller, targets } from '@github/catalyst';
 let PrimerMultiInputElement = class PrimerMultiInputElement extends HTMLElement {
     activateField(name) {
-        var _a, _b;
         const fieldWithName = this.findField(name);
         if (!fieldWithName)
             return;
@@ -17,11 +16,11 @@ let PrimerMultiInputElement = class PrimerMultiInputElement extends HTMLElement 
                 continue;
             field.setAttribute('disabled', 'disabled');
             field.setAttribute('hidden', 'hidden');
-            (_a = field.parentElement) === null || _a === void 0 ? void 0 : _a.setAttribute('hidden', 'hidden');
+            field.parentElement?.setAttribute('hidden', 'hidden');
         }
         fieldWithName.removeAttribute('disabled');
         fieldWithName.removeAttribute('hidden');
-        (_b = fieldWithName.parentElement) === null || _b === void 0 ? void 0 : _b.removeAttribute('hidden');
+        fieldWithName.parentElement?.removeAttribute('hidden');
     }
     findField(name) {
         for (const field of this.fields) {

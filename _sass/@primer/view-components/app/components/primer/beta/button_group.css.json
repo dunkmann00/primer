@@ -1,0 +1,12 @@
+{
+  "name": "beta/button_group",
+  "selectors": [
+    ".ButtonGroup",
+    ".ButtonGroup .Button",
+    ".ButtonGroup .Button:active",
+    ".ButtonGroup .Button:focus",
+    ".ButtonGroup .Button:hover",
+    ".ButtonGroup>:first-child .Button",
+    ".ButtonGroup>:last-child .Button"
+  ]
+}

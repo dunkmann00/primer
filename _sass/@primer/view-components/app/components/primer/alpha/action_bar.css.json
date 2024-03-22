@@ -1,0 +1,14 @@
+{
+  "name": "alpha/action_bar",
+  "selectors": [
+    ".ActionBar",
+    ".ActionBar-item-container",
+    ".ActionBar-item",
+    ".ActionBar-more-menu",
+    ".ActionBar--small",
+    ".ActionBar--large",
+    ".ActionBar-divider",
+    ".ActionBar--small .ActionBar-divider",
+    ".ActionBar--large .ActionBar-divider"
+  ]
+}
