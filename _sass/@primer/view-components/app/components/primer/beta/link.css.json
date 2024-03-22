@@ -5,6 +5,7 @@
     ".Link:hover",
     ".Link:focus",
     ".Link:focus-visible",
+    ".Link--underline",
     ".Link--primary",
     ".Link--primary:hover",
     ".Link--secondary",

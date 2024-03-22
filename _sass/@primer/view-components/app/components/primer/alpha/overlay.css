@@ -1,1 +1,1 @@
-.Overlay[popover]{border-width:0;min-width:192px;padding:0;position:absolute}.Overlay[popover]:not(:open){display:none}anchored-position{display:block}
+anchored-position[popover]{border-width:0;min-width:192px;overflow:visible;padding:0;position:absolute}anchored-position:not(.Overlay){background:none}.Overlay[popover]:not(:popover-open){display:none}anchored-position.not-anchored::backdrop,dialog::backdrop{background-color:var(--overlay-backdrop-bgColor,var(--color-neutral-muted))}@media (forced-colors:active){.Overlay{outline:1px solid #0000}}

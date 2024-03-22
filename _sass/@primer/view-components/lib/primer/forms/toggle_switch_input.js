@@ -1,3 +1,4 @@
+/* eslint-disable custom-elements/expose-class-on-global */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,11 +9,15 @@ import { controller, target } from '@github/catalyst';
 let ToggleSwitchInputElement = class ToggleSwitchInputElement extends HTMLElement {
     connectedCallback() {
         this.addEventListener('toggleSwitchError', (event) => {
-            this.validationMessageElement.innerText = event.detail;
+            this.validationMessageElement.textContent = event.detail;
             this.validationElement.removeAttribute('hidden');
         });
         this.addEventListener('toggleSwitchSuccess', () => {
-            this.validationMessageElement.innerText = '';
+            this.validationMessageElement.textContent = '';
+            this.validationElement.setAttribute('hidden', 'hidden');
+        });
+        this.addEventListener('toggleSwitchLoading', () => {
+            this.validationMessageElement.textContent = '';
             this.validationElement.setAttribute('hidden', 'hidden');
         });
     }

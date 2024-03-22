@@ -27,11 +27,16 @@ class PrimerTextFieldElement extends HTMLElement {
         _PrimerTextFieldElement_abortController.set(this, void 0);
     }
     connectedCallback() {
-        var _a;
-        (_a = __classPrivateFieldGet(this, _PrimerTextFieldElement_abortController, "f")) === null || _a === void 0 ? void 0 : _a.abort();
+        __classPrivateFieldGet(this, _PrimerTextFieldElement_abortController, "f")?.abort();
         const { signal } = (__classPrivateFieldSet(this, _PrimerTextFieldElement_abortController, new AbortController(), "f"));
-        this.inputElement.addEventListener('auto-check-success', () => {
-            this.clearError();
+        this.inputElement.addEventListener('auto-check-success', async (event) => {
+            const message = await event.detail.response.text();
+            if (message && message.length > 0) {
+                this.setSuccess(message);
+            }
+            else {
+                this.clearError();
+            }
         }, { signal });
         this.inputElement.addEventListener('auto-check-error', async (event) => {
             const errorMessage = await event.detail.response.text();
@@ -39,8 +44,7 @@ class PrimerTextFieldElement extends HTMLElement {
         }, { signal });
     }
     disconnectedCallback() {
-        var _a;
-        (_a = __classPrivateFieldGet(this, _PrimerTextFieldElement_abortController, "f")) === null || _a === void 0 ? void 0 : _a.abort();
+        __classPrivateFieldGet(this, _PrimerTextFieldElement_abortController, "f")?.abort();
     }
     clearContents() {
         this.inputElement.value = '';
@@ -49,12 +53,35 @@ class PrimerTextFieldElement extends HTMLElement {
     clearError() {
         this.inputElement.removeAttribute('invalid');
         this.validationElement.hidden = true;
-        this.validationMessageElement.textContent = '';
+        this.validationMessageElement.replaceChildren();
+    }
+    setValidationMessage(message) {
+        const template = document.createElement('template');
+        // eslint-disable-next-line github/no-inner-html
+        template.innerHTML = message;
+        const fragment = document.importNode(template.content, true);
+        this.validationMessageElement.replaceChildren(fragment);
+    }
+    toggleValidationStyling(isError) {
+        if (isError) {
+            this.validationElement.classList.remove('FormControl-inlineValidation--success');
+        }
+        else {
+            this.validationElement.classList.add('FormControl-inlineValidation--success');
+        }
+        this.validationSuccessIcon.hidden = isError;
+        this.validationErrorIcon.hidden = !isError;
+        this.inputElement.setAttribute('invalid', isError ? 'true' : 'false');
+    }
+    setSuccess(message) {
+        this.toggleValidationStyling(false);
+        this.setValidationMessage(message);
+        this.validationElement.hidden = false;
     }
     setError(message) {
-        this.validationMessageElement.textContent = message;
+        this.toggleValidationStyling(true);
+        this.setValidationMessage(message);
         this.validationElement.hidden = false;
-        this.inputElement.setAttribute('invalid', 'true');
     }
 };
 _PrimerTextFieldElement_abortController = new WeakMap();
@@ -67,6 +94,12 @@ __decorate([
 __decorate([
     target
 ], PrimerTextFieldElement.prototype, "validationMessageElement", void 0);
+__decorate([
+    target
+], PrimerTextFieldElement.prototype, "validationSuccessIcon", void 0);
+__decorate([
+    target
+], PrimerTextFieldElement.prototype, "validationErrorIcon", void 0);
 PrimerTextFieldElement = __decorate([
     controller
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars

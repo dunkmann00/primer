@@ -1,6 +1,7 @@
 {
   "name": "beta/blankslate",
   "selectors": [
+    ".blankslate-container",
     ".blankslate",
     ".blankslate p",
     ".blankslate code",

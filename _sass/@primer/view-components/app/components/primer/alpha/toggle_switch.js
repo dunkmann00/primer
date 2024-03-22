@@ -5,8 +5,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { controller, target } from '@github/catalyst';
-import { debounce } from '@github/mini-throttle/decorators';
 let ToggleSwitchElement = class ToggleSwitchElement extends HTMLElement {
+    constructor() {
+        super(...arguments);
+        this.toggling = false;
+    }
     get src() {
         const src = this.getAttribute('src');
         if (!src)
@@ -26,46 +29,66 @@ let ToggleSwitchElement = class ToggleSwitchElement extends HTMLElement {
     isRemote() {
         return this.src != null;
     }
-    toggle() {
+    async toggle() {
+        if (this.toggling)
+            return;
+        this.toggling = true;
         if (this.isDisabled()) {
             return;
         }
-        if (this.isRemote()) {
-            this.setLoadingState();
-            this.submitForm();
-        }
-        else {
+        if (!this.isRemote()) {
             this.performToggle();
+            this.toggling = false;
+            return;
         }
+        // toggle immediately to tell screen readers the switch was clicked
+        this.performToggle();
+        this.setLoadingState();
+        try {
+            await this.submitForm();
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                // because we toggle immediately when the switch is clicked, toggle back to the
+                // old state on failure
+                this.setErrorState(error.message || 'An error occurred, please try again.');
+                this.performToggle();
+            }
+            return;
+        }
+        finally {
+            this.toggling = false;
+        }
+        this.setSuccessState();
     }
     turnOn() {
         if (this.isDisabled()) {
             return;
         }
-        this.switch.setAttribute('aria-checked', 'true');
+        this.switch.setAttribute('aria-pressed', 'true');
         this.classList.add('ToggleSwitch--checked');
     }
     turnOff() {
         if (this.isDisabled()) {
             return;
         }
-        this.switch.setAttribute('aria-checked', 'false');
+        this.switch.setAttribute('aria-pressed', 'false');
         this.classList.remove('ToggleSwitch--checked');
     }
     isOn() {
-        return this.switch.getAttribute('aria-checked') === 'true';
+        return this.switch.getAttribute('aria-pressed') === 'true';
     }
     isOff() {
         return !this.isOn();
     }
     isDisabled() {
-        return this.switch.getAttribute('aria-disabled') === 'true';
+        return this.switch.getAttribute('disabled') != null;
     }
     disable() {
-        this.switch.setAttribute('aria-disabled', 'true');
+        this.switch.setAttribute('disabled', 'disabled');
     }
     enable() {
-        this.switch.setAttribute('aria-disabled', 'false');
+        this.switch.removeAttribute('disabled');
     }
     performToggle() {
         if (this.isOn()) {
@@ -76,9 +99,10 @@ let ToggleSwitchElement = class ToggleSwitchElement extends HTMLElement {
         }
     }
     setLoadingState() {
-        this.disable();
         this.errorIcon.setAttribute('hidden', 'hidden');
         this.loadingSpinner.removeAttribute('hidden');
+        const event = new CustomEvent('toggleSwitchLoading', { bubbles: true });
+        this.dispatchEvent(event);
     }
     setSuccessState() {
         const event = new CustomEvent('toggleSwitchSuccess', { bubbles: true });
@@ -95,43 +119,31 @@ let ToggleSwitchElement = class ToggleSwitchElement extends HTMLElement {
             this.errorIcon.removeAttribute('hidden');
         }
         this.loadingSpinner.setAttribute('hidden', 'hidden');
-        this.enable();
     }
     async submitForm() {
         const body = new FormData();
         if (this.csrf) {
             body.append(this.csrfField, this.csrf);
         }
-        body.append('value', this.isOn() ? '0' : '1');
+        body.append('value', this.isOn() ? '1' : '0');
+        if (!this.src)
+            throw new Error('invalid src');
+        let response;
         try {
-            if (!this.src)
-                throw new Error('invalid src');
-            let response;
-            try {
-                response = await fetch(this.src, {
-                    credentials: 'same-origin',
-                    method: 'POST',
-                    headers: {
-                        'Requested-With': 'XMLHttpRequest'
-                    },
-                    body
-                });
-            }
-            catch (error) {
-                throw new Error('A network error occurred, please try again.');
-            }
-            if (response.ok) {
-                this.setSuccessState();
-                this.performToggle();
-            }
-            else {
-                throw new Error(await response.text());
-            }
+            response = await fetch(this.src, {
+                credentials: 'same-origin',
+                method: 'POST',
+                headers: {
+                    'Requested-With': 'XMLHttpRequest',
+                },
+                body,
+            });
         }
         catch (error) {
-            if (error instanceof Error) {
-                this.setErrorState(error.message || 'An error occurred, please try again.');
-            }
+            throw new Error('A network error occurred, please try again.');
+        }
+        if (!response.ok) {
+            throw new Error(await response.text());
         }
     }
 };
@@ -144,9 +156,6 @@ __decorate([
 __decorate([
     target
 ], ToggleSwitchElement.prototype, "errorIcon", void 0);
-__decorate([
-    debounce(300)
-], ToggleSwitchElement.prototype, "submitForm", null);
 ToggleSwitchElement = __decorate([
     controller
 ], ToggleSwitchElement);

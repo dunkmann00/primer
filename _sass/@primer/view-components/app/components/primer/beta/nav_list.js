@@ -9,40 +9,13 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _NavListElement_instances, _NavListElement_parseHTML, _NavListElement_findSelectedNavItemById, _NavListElement_findSelectedNavItemByHref, _NavListElement_findSelectedNavItemByCurrentLocation, _NavListElement_select, _NavListElement_deselect, _NavListElement_findParentMenu;
+var _NavListElement_instances, _NavListElement_findSelectedNavItemById, _NavListElement_findSelectedNavItemByHref, _NavListElement_findSelectedNavItemByCurrentLocation, _NavListElement_select, _NavListElement_deselect, _NavListElement_findParentMenu;
 /* eslint-disable custom-elements/expose-class-on-global */
-import { controller, target, targets } from '@github/catalyst';
+import { controller, targets } from '@github/catalyst';
 let NavListElement = class NavListElement extends HTMLElement {
     constructor() {
         super(...arguments);
         _NavListElement_instances.add(this);
-    }
-    connectedCallback() {
-        this.setShowMoreItemState();
-    }
-    get showMoreDisabled() {
-        return this.showMoreItem.hasAttribute('aria-disabled');
-    }
-    set showMoreDisabled(value) {
-        if (value) {
-            this.showMoreItem.setAttribute('aria-disabled', 'true');
-        }
-        else {
-            this.showMoreItem.removeAttribute('aria-disabled');
-        }
-        this.showMoreItem.classList.toggle('disabled', value);
-    }
-    set currentPage(value) {
-        this.showMoreItem.setAttribute('data-current-page', value.toString());
-    }
-    get currentPage() {
-        return parseInt(this.showMoreItem.getAttribute('data-current-page')) || 1;
-    }
-    get totalPages() {
-        return parseInt(this.showMoreItem.getAttribute('data-total-pages')) || 1;
-    }
-    get paginationSrc() {
-        return this.showMoreItem.getAttribute('src') || '';
     }
     selectItemById(itemId) {
         if (!itemId)
@@ -74,21 +47,19 @@ let NavListElement = class NavListElement extends HTMLElement {
     }
     // expand collapsible item onClick
     expandItem(item) {
-        var _a;
-        (_a = item.nextElementSibling) === null || _a === void 0 ? void 0 : _a.removeAttribute('data-hidden');
+        item.nextElementSibling?.removeAttribute('data-hidden');
         item.setAttribute('aria-expanded', 'true');
     }
     collapseItem(item) {
-        var _a;
-        (_a = item.nextElementSibling) === null || _a === void 0 ? void 0 : _a.setAttribute('data-hidden', '');
+        item.nextElementSibling?.setAttribute('data-hidden', '');
         item.setAttribute('aria-expanded', 'false');
         item.focus();
     }
     itemIsExpanded(item) {
-        if ((item === null || item === void 0 ? void 0 : item.tagName) === 'A') {
+        if (item?.tagName === 'A') {
             return true;
         }
-        return (item === null || item === void 0 ? void 0 : item.getAttribute('aria-expanded')) === 'true';
+        return item?.getAttribute('aria-expanded') === 'true';
     }
     // expand/collapse item
     handleItemWithSubItemClick(e) {
@@ -104,6 +75,7 @@ let NavListElement = class NavListElement extends HTMLElement {
         else {
             this.expandItem(button);
         }
+        /* eslint-disable-next-line no-restricted-syntax */
         e.stopPropagation();
     }
     // collapse item
@@ -124,102 +96,64 @@ let NavListElement = class NavListElement extends HTMLElement {
         if (this.itemIsExpanded(button) && e.key === 'Escape') {
             this.collapseItem(button);
         }
+        /* eslint-disable-next-line no-restricted-syntax */
         e.stopPropagation();
     }
-    async showMore(e) {
-        var _a, _b;
-        e.preventDefault();
-        if (this.showMoreDisabled)
-            return;
-        this.showMoreDisabled = true;
-        let html;
-        try {
-            const paginationURL = new URL(this.paginationSrc, window.location.origin);
-            this.currentPage++;
-            paginationURL.searchParams.append('page', this.currentPage.toString());
-            const response = await fetch(paginationURL);
-            if (!response.ok)
-                return;
-            html = await response.text();
-            if (this.currentPage === this.totalPages) {
-                this.showMoreItem.hidden = true;
-            }
-        }
-        catch (err) {
-            // Ignore network errors
-            this.showMoreDisabled = false;
-            this.currentPage--;
-            return;
-        }
-        const fragment = __classPrivateFieldGet(this, _NavListElement_instances, "m", _NavListElement_parseHTML).call(this, document, html);
-        (_a = fragment === null || fragment === void 0 ? void 0 : fragment.querySelector('li > a')) === null || _a === void 0 ? void 0 : _a.setAttribute('data-targets', 'nav-list.focusMarkers');
-        const listId = e.target.closest('button').getAttribute('data-list-id');
-        const list = document.getElementById(listId);
-        list.append(fragment);
-        (_b = this.focusMarkers.pop()) === null || _b === void 0 ? void 0 : _b.focus();
-        this.showMoreDisabled = false;
-    }
-    setShowMoreItemState() {
-        if (!this.showMoreItem) {
-            return;
-        }
-        if (this.currentPage < this.totalPages) {
-            this.showMoreItem.hidden = false;
-        }
-        else {
-            this.showMoreItem.hidden = true;
-        }
-    }
 };
-_NavListElement_instances = new WeakSet(), _NavListElement_parseHTML = function _NavListElement_parseHTML(document, html) {
-    const template = document.createElement('template');
-    // eslint-disable-next-line github/no-inner-html
-    template.innerHTML = html;
-    return document.importNode(template.content, true);
-}, _NavListElement_findSelectedNavItemById = function _NavListElement_findSelectedNavItemById(itemId) {
-    var _a;
+_NavListElement_instances = new WeakSet();
+_NavListElement_findSelectedNavItemById = function _NavListElement_findSelectedNavItemById(itemId) {
     // First we compare the selected link to data-item-id for each nav item
     for (const navItem of this.items) {
         if (navItem.classList.contains('ActionListItem--hasSubItem')) {
             continue;
         }
-        const keys = ((_a = navItem.getAttribute('data-item-id')) === null || _a === void 0 ? void 0 : _a.split(' ')) || [];
+        const keys = navItem.getAttribute('data-item-id')?.split(' ') || [];
         if (keys.includes(itemId)) {
             return navItem;
         }
     }
     return null;
-}, _NavListElement_findSelectedNavItemByHref = function _NavListElement_findSelectedNavItemByHref(href) {
+};
+_NavListElement_findSelectedNavItemByHref = function _NavListElement_findSelectedNavItemByHref(href) {
     // If we didn't find a match, we compare the selected link to the href of each nav item
     const selectedNavItem = this.querySelector(`.ActionListContent[href="${href}"]`);
     if (selectedNavItem) {
         return selectedNavItem.closest('.ActionListItem');
     }
     return null;
-}, _NavListElement_findSelectedNavItemByCurrentLocation = function _NavListElement_findSelectedNavItemByCurrentLocation() {
+};
+_NavListElement_findSelectedNavItemByCurrentLocation = function _NavListElement_findSelectedNavItemByCurrentLocation() {
     return __classPrivateFieldGet(this, _NavListElement_instances, "m", _NavListElement_findSelectedNavItemByHref).call(this, window.location.pathname);
-}, _NavListElement_select = function _NavListElement_select(navItem) {
+};
+_NavListElement_select = function _NavListElement_select(navItem) {
     const currentlySelectedItem = this.querySelector('.ActionListItem--navActive');
     if (currentlySelectedItem)
         __classPrivateFieldGet(this, _NavListElement_instances, "m", _NavListElement_deselect).call(this, currentlySelectedItem);
     navItem.classList.add('ActionListItem--navActive');
+    if (navItem.children.length > 0) {
+        navItem.children[0].setAttribute('aria-current', 'page');
+    }
     const parentMenu = __classPrivateFieldGet(this, _NavListElement_instances, "m", _NavListElement_findParentMenu).call(this, navItem);
     if (parentMenu) {
         this.expandItem(parentMenu);
         parentMenu.classList.add('ActionListContent--hasActiveSubItem');
     }
-}, _NavListElement_deselect = function _NavListElement_deselect(navItem) {
+};
+_NavListElement_deselect = function _NavListElement_deselect(navItem) {
     navItem.classList.remove('ActionListItem--navActive');
+    if (navItem.children.length > 0) {
+        navItem.children[0].removeAttribute('aria-current');
+    }
     const parentMenu = __classPrivateFieldGet(this, _NavListElement_instances, "m", _NavListElement_findParentMenu).call(this, navItem);
     if (parentMenu) {
         this.collapseItem(parentMenu);
         parentMenu.classList.remove('ActionListContent--hasActiveSubItem');
     }
-}, _NavListElement_findParentMenu = function _NavListElement_findParentMenu(navItem) {
-    var _a;
+};
+_NavListElement_findParentMenu = function _NavListElement_findParentMenu(navItem) {
     if (!navItem.classList.contains('ActionListItem--subItem'))
         return null;
-    const parent = (_a = navItem.closest('li.ActionListItem--hasSubItem')) === null || _a === void 0 ? void 0 : _a.querySelector('button.ActionListContent');
+    const parent = navItem.closest('li.ActionListItem--hasSubItem')?.querySelector('button.ActionListContent');
     if (parent) {
         return parent;
     }
@@ -230,12 +164,6 @@ _NavListElement_instances = new WeakSet(), _NavListElement_parseHTML = function 
 __decorate([
     targets
 ], NavListElement.prototype, "items", void 0);
-__decorate([
-    target
-], NavListElement.prototype, "showMoreItem", void 0);
-__decorate([
-    targets
-], NavListElement.prototype, "focusMarkers", void 0);
 NavListElement = __decorate([
     controller
 ], NavListElement);

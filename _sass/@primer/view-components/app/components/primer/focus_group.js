@@ -9,24 +9,17 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _FocusGroupElement_instances, _FocusGroupElement_abortController, _FocusGroupElement_items_get;
+var _FocusGroupElement_instances, _FocusGroupElement_retainSignal, _FocusGroupElement_abortController, _FocusGroupElement_items_get;
 import '@oddbird/popover-polyfill';
-const menuItemSelector = '[role="menuitem"],[role="menuitemcheckbox"],[role="menuitemradio"]';
-const popoverSelector = (() => {
-    try {
-        document.querySelector(':open');
-        return ':open';
-    }
-    catch (_a) {
-        return '.\\:open';
-    }
-})();
-const getMnemonicFor = (item) => { var _a; return (_a = item.textContent) === null || _a === void 0 ? void 0 : _a.trim()[0].toLowerCase(); };
+const validSelectors = ['[role="menuitem"]', '[role="menuitemcheckbox"]', '[role="menuitemradio"]'];
+const menuItemSelector = validSelectors.map(selector => `:not([hidden]) > ${selector}`).join(', ');
+const getMnemonicFor = (item) => item.textContent?.trim()[0].toLowerCase();
 const printable = /^\S$/;
-export default class FocusGroupElement extends HTMLElement {
+class FocusGroupElement extends HTMLElement {
     constructor() {
         super(...arguments);
         _FocusGroupElement_instances.add(this);
+        _FocusGroupElement_retainSignal.set(this, null);
         _FocusGroupElement_abortController.set(this, null);
     }
     get nowrap() {
@@ -61,15 +54,36 @@ export default class FocusGroupElement extends HTMLElement {
         this.addEventListener('focusin', this, { signal });
     }
     disconnectedCallback() {
-        var _a;
-        (_a = __classPrivateFieldGet(this, _FocusGroupElement_abortController, "f")) === null || _a === void 0 ? void 0 : _a.abort();
+        __classPrivateFieldGet(this, _FocusGroupElement_abortController, "f")?.abort();
     }
     handleEvent(event) {
         const { direction, nowrap } = this;
         if (event.type === 'focusin') {
             if (this.retain && event.target instanceof Element && event.target.matches(menuItemSelector)) {
+                __classPrivateFieldGet(this, _FocusGroupElement_retainSignal, "f")?.abort();
+                const { signal } = (__classPrivateFieldSet(this, _FocusGroupElement_retainSignal, new AbortController(), "f"));
                 for (const item of __classPrivateFieldGet(this, _FocusGroupElement_instances, "a", _FocusGroupElement_items_get)) {
                     item.setAttribute('tabindex', item === event.target ? '0' : '-1');
+                    const popover = event.target.closest('[popover]');
+                    if (item === event.target && popover?.popover === 'auto' && popover.closest('focus-group') === this) {
+                        popover.addEventListener('toggle', (toggleEvent) => {
+                            if (!(toggleEvent.target instanceof Element))
+                                return;
+                            if (toggleEvent.newState === 'closed') {
+                                __classPrivateFieldGet(this, _FocusGroupElement_retainSignal, "f")?.abort();
+                                item.setAttribute('tabindex', '-1');
+                                if (popover.id) {
+                                    const invoker = this.querySelector(`[popovertarget="${popover.id}"]`);
+                                    if (invoker) {
+                                        invoker.setAttribute('tabindex', '0');
+                                    }
+                                    else {
+                                        __classPrivateFieldGet(this, _FocusGroupElement_instances, "a", _FocusGroupElement_items_get)[0]?.setAttribute('tabindex', '0');
+                                    }
+                                }
+                            }
+                        }, { signal });
+                    }
                 }
             }
         }
@@ -80,28 +94,34 @@ export default class FocusGroupElement extends HTMLElement {
             if (key === 'Up' || key === 'ArrowUp') {
                 if (direction === 'vertical' || direction === 'both') {
                     index -= index < 0 ? 0 : 1;
+                    event.preventDefault();
                 }
             }
             else if (key === 'Down' || key === 'ArrowDown') {
                 if (direction === 'vertical' || direction === 'both') {
                     index += 1;
+                    event.preventDefault();
                 }
             }
             else if (event.key === 'Left' || event.key === 'ArrowLeft') {
                 if (direction === 'horizontal' || direction === 'both') {
                     index -= 1;
+                    event.preventDefault();
                 }
             }
             else if (event.key === 'Right' || event.key === 'ArrowRight') {
                 if (direction === 'horizontal' || direction === 'both') {
                     index += 1;
+                    event.preventDefault();
                 }
             }
             else if (event.key === 'Home' || event.key === 'PageUp') {
                 index = 0;
+                event.preventDefault();
             }
             else if (event.key === 'End' || event.key === 'PageDown') {
                 index = items.length - 1;
+                event.preventDefault();
             }
             else if (this.mnemonics && printable.test(key)) {
                 const mnemonic = key.toLowerCase();
@@ -122,22 +142,21 @@ export default class FocusGroupElement extends HTMLElement {
             {
                 let el = focusEl;
                 do {
-                    el = el.closest(`[popover]:not(${popoverSelector})`);
-                    if ((el === null || el === void 0 ? void 0 : el.popover) === 'auto') {
+                    el = el.closest(`[popover]:not(:popover-open)`);
+                    if (el?.popover === 'auto' && !['ArrowRight', 'ArrowLeft'].includes(event.key)) {
                         el.showPopover();
                     }
-                    else {
-                        el = (el === null || el === void 0 ? void 0 : el.parentElement) || null;
-                    }
+                    el = el?.parentElement || null;
                 } while (el);
             }
-            focusEl === null || focusEl === void 0 ? void 0 : focusEl.focus();
+            focusEl?.focus();
         }
     }
 }
-_FocusGroupElement_abortController = new WeakMap(), _FocusGroupElement_instances = new WeakSet(), _FocusGroupElement_items_get = function _FocusGroupElement_items_get() {
+_FocusGroupElement_retainSignal = new WeakMap(), _FocusGroupElement_abortController = new WeakMap(), _FocusGroupElement_instances = new WeakSet(), _FocusGroupElement_items_get = function _FocusGroupElement_items_get() {
     return this.querySelectorAll(menuItemSelector);
 };
+export default FocusGroupElement;
 if (!customElements.get('focus-group')) {
     window.FocusGroupElement = FocusGroupElement;
     customElements.define('focus-group', FocusGroupElement);

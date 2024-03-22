@@ -1,8 +1,11 @@
 {
   "name": "alpha/overlay",
   "selectors": [
-    ".Overlay[popover]",
-    ".Overlay[popover]:not(:open)",
-    "anchored-position"
+    "anchored-position[popover]",
+    "anchored-position:not(.Overlay)",
+    ".Overlay[popover]:not(:popover-open)",
+    "anchored-position.not-anchored::backdrop",
+    "dialog::backdrop",
+    ".Overlay"
   ]
 }
