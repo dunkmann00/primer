@@ -13,8 +13,23 @@ if test -e "_sass/normalize.css/normalize.css"; then
   mv -f _sass/normalize.css/normalize.css _sass/normalize.css/normalize.scss
 fi
 
+# All of the primitives are CSS, which Sass doesn't like. Convert to scss.
+for file in $(find _sass/@primer/primitives/dist/css -name "*.css"); do
+  mv -f ${file} ${file%.css}.scss
+done
+
 # Add our own theme scss file for consistency of naming in `assets/style.scss`
 content='
+@import "@primer/primitives/dist/css/base/size/size.scss";
+@import "@primer/primitives/dist/css/base/typography/typography.scss";
+@import "@primer/primitives/dist/css/functional/size/border.scss";
+@import "@primer/primitives/dist/css/functional/size/breakpoints.scss";
+@import "@primer/primitives/dist/css/functional/size/size-coarse.scss";
+@import "@primer/primitives/dist/css/functional/size/size-fine.scss";
+@import "@primer/primitives/dist/css/functional/size/size.scss";
+@import "@primer/primitives/dist/css/functional/size/viewport.scss";
+@import "@primer/primitives/dist/css/functional/typography/typography.scss";
+
 @import "@primer/css/color-modes/index.scss";
 @import "@primer/css/support/index.scss";
 @import "@primer/css/base/index.scss";
