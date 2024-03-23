@@ -1,4 +1,14 @@
 
+@import "@primer/primitives/dist/css/base/size/size.scss";
+@import "@primer/primitives/dist/css/base/typography/typography.scss";
+@import "@primer/primitives/dist/css/functional/size/border.scss";
+@import "@primer/primitives/dist/css/functional/size/breakpoints.scss";
+@import "@primer/primitives/dist/css/functional/size/size-coarse.scss";
+@import "@primer/primitives/dist/css/functional/size/size-fine.scss";
+@import "@primer/primitives/dist/css/functional/size/size.scss";
+@import "@primer/primitives/dist/css/functional/size/viewport.scss";
+@import "@primer/primitives/dist/css/functional/typography/typography.scss";
+
 @import "@primer/css/color-modes/index.scss";
 @import "@primer/css/support/index.scss";
 @import "@primer/css/base/index.scss";
