@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 2.4.0"
 
   s.add_dependency "jekyll", ">= 4.0", "< 5.0"
+  s.add_runtime_dependency "jekyll-github-alerts", "~> 0.1"
   s.add_runtime_dependency "jekyll-github-metadata", "~> 2.16"
   s.add_runtime_dependency "jekyll-seo-tag", "~> 2.0"
   s.add_runtime_dependency "jekyll-sass-converter", "~> 3.0"
