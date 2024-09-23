@@ -15,7 +15,7 @@ To use the Primer theme:
 1. Add the following to your site's `_config.yml`:
 
     ```yml
-    remote_theme: dunkmann00/primer@v0.12.0
+    remote_theme: dunkmann00/primer@v0.16.0
     plugins:
     - jekyll-remote-theme # add this line to the plugins list if you already have one
     ```
